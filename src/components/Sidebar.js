@@ -17,7 +17,7 @@ export default function Sidebar() {
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/users", label: "User Management", icon: Users },
     { href: "/notification", label: "Notification", icon: MdOutlineNotificationsActive },
-    // { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
+    { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
     // { href: "/settings", label: "Settings", icon: Settings },
   ];
 
