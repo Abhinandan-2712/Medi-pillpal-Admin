@@ -7,7 +7,6 @@ import { Home, Users, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // ✅ current path hook
-// import logo from "../../public/Logo.png";
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import { TbTransactionDollar } from "react-icons/tb";
 
@@ -26,8 +25,13 @@ export default function Sidebar() {
     <div className="h-screen w-64 bg-gradient-to-b from-blue-300 to-blue-600 text-white flex flex-col shadow-lg">
       {/* Logo */}
       <div className="p-4 text-center border-b border-blue-500">
-        <Image src="/Logo.png" alt="Medi Admin Logo" className="h-20 p-1 mx-auto" />
-      </div>
+<Image
+  src="/Logo.png"           // ✅ absolute path from the public folder
+  alt="Medi Admin Logo"
+  width={200}             
+  height={80}
+  className="h-20 p-1 mx-auto"
+/>      </div>
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
