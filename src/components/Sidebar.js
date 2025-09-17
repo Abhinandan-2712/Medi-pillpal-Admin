@@ -6,18 +6,18 @@
 import { Home, Users, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // ✅ current path hook
+import { usePathname } from "next/navigation"; 
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import { TbTransactionDollar } from "react-icons/tb";
 
 export default function Sidebar() {
-  const pathname = usePathname(); // ✅ current URL path
+  const pathname = usePathname(); 
 
   const links = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/users", label: "User Management", icon: Users },
     { href: "/notification", label: "Notification", icon: MdOutlineNotificationsActive },
-    { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
+    // { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
     // { href: "/settings", label: "Settings", icon: Settings },
   ];
 
