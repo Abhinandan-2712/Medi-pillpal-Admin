@@ -15,7 +15,7 @@ export default function AuthLayout({ children }) {
  items-center justify-center p-8">
         <div className="text-center text-white">
           <img
-            src="/Logo.png"
+            src="/logo.png"
             alt="Logo"
             className="mx-auto w-auto h-48 mb-6 drop-shadow-lg"
           />

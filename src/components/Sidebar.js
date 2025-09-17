@@ -26,7 +26,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="p-4 text-center border-b border-blue-500">
 <Image
-  src="/Logo.png"           // ✅ absolute path from the public folder
+  src="/logo.png"           // ✅ absolute path from the public folder
   alt="Medi Admin Logo"
   width={200}             
   height={80}
