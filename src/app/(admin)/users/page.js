@@ -8,7 +8,7 @@ export default function User() {
   const [activeTab, setActiveTab] = useState("Guardians");
 
   return (
-    <div className="my-10 min-h-[80vh] space-y-6">
+    <div className=" min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow">
       <div className="flex gap-4 border-b">
         {["Guardians", "Patients", "Caretakers"].map((tab) => (
           <button

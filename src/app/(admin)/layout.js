@@ -18,7 +18,7 @@ export default function AdminLayout({ children }) {
         </div>
 
         {/* Scrollable content */}
-        <main className="pt-16 p-4">
+        <main className="pt-16 p-4 ">
           {children}
         </main>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import * as XLSX from "xlsx";
+import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";  
@@ -76,14 +76,39 @@ export default function User() {
     },
   ];
     // 🔄 Export to Excel
-  const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(invoices);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(data, "transactions.xlsx");
-  };
+const exportToExcel = async () => {
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Transactions");
+
+  // Header
+  worksheet.addRow([
+    "Sr No",
+    "Full Name",
+    "Email",
+    "Number",
+    "Patient Name",
+    "Status",
+    "Date",
+  ]);
+
+  // Data rows
+  invoices.forEach((inv) => {
+    worksheet.addRow([
+      inv.srNo,
+      inv.fullName,
+      inv.email,
+      inv.number,
+      inv.patientName,
+      inv.status,
+      inv.date,
+    ]);
+  });
+
+  // Generate & download file
+  const buffer = await workbook.xlsx.writeBuffer();
+  saveAs(new Blob([buffer]), "transactions.xlsx");
+};
+
 
   // 🔄 Export to PDF
 const exportToPDF = () => {
@@ -138,7 +163,7 @@ const exportToPDF = () => {
   const prevPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
   return (
-    <div className="my-10 min-h-[80vh] space-y-6">
+    <div className="min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <h1 className="text-2xl font-bold text-gray-800">Total Transaction</h1>

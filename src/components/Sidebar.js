@@ -7,8 +7,10 @@ import { Home, Users, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; 
-import { MdOutlineNotificationsActive } from "react-icons/md";
+import { MdOutlineNotificationsActive, MdOutlinePrivacyTip } from "react-icons/md";
 import { TbTransactionDollar } from "react-icons/tb";
+import { GoCodeOfConduct } from "react-icons/go";
+
 
 export default function Sidebar() {
   const pathname = usePathname(); 
@@ -17,8 +19,9 @@ export default function Sidebar() {
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/users", label: "User Management", icon: Users },
     { href: "/notification", label: "Notification", icon: MdOutlineNotificationsActive },
-    // { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
-    // { href: "/settings", label: "Settings", icon: Settings },
+    { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
+    { href: "/privacy-policy", label: "Privacy and Policy", icon: MdOutlinePrivacyTip },
+    // { href: "/term-contions", label: "Terms and Conditions", icon: GoCodeOfConduct },
   ];
 
   return (
