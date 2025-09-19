@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+/* globals.css */
+.ck-editor__editable {
+  min-height: 300px;
+}
+

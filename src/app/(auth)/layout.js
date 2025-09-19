@@ -1,12 +1,4 @@
-// export default function AuthLayout({ children }) {
-//   return (
-//     <div className="flex items-center justify-center h-screen bg-gray-100">
-//       <div className="w-full bg-white shadow-lg rounded-xl">
-//         {children}
-//       </div>
-//     </div>
-//   );
-// }
+
 export default function AuthLayout({ children }) {
   return (
     <div className="flex min-h-screen">

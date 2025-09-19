@@ -13,14 +13,27 @@ export default function CKEditorClient({ value = "", onChange }) {
         onChange && onChange(html);
       }}
       config={{
-       toolbar: [
-  "heading","|",
-  "bold","italic","underline","strikethrough","link","|",
-  "bulletedList","numberedList","|",
-  "blockQuote","insertTable","imageUpload","mediaEmbed","|",
-  "undo","redo"
-]
-
+        placeholder: "Type your content here...",
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "underline",
+          "strikethrough",
+          "link",
+          "|",
+          "bulletedList",
+          "numberedList",
+          "|",
+          "blockQuote",
+          "insertTable",
+          "imageUpload",
+          "mediaEmbed",
+          "|",
+          "undo",
+          "redo",
+        ],
       }}
     />
   );

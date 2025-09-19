@@ -10,6 +10,7 @@ import {
 } from "react-icons/md";
 import { TbTransactionDollar } from "react-icons/tb";
 import { GoCodeOfConduct } from "react-icons/go";
+import { FaQuestion } from "react-icons/fa";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -28,11 +29,12 @@ export default function Sidebar() {
       label: "Privacy and Policy",
       icon: MdOutlinePrivacyTip,
     },
-    // { href: "/term-contions", label: "Terms and Conditions", icon: GoCodeOfConduct },
+    { href: "/term-contions", label: "Terms and Conditions", icon: GoCodeOfConduct },
+    { href: "/faq", label: "FAQ", icon: FaQuestion },
   ];
 
   return (
-    <div className="h-screen w-64 bg-gradient-to-b from-blue-300 to-blue-600 text-white flex flex-col shadow-lg">
+    <div className="min-h-screen h-full w-64 bg-gradient-to-b from-blue-300 to-blue-600 text-white flex flex-col shadow-lg">
       {/* Logo */}
       <div className="p-4 text-center border-b border-blue-500">
         <Image
@@ -67,12 +69,12 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-blue-500">
+      {/* <div className="p-4 border-t border-blue-500">
         <button className="flex items-center gap-3 p-3 w-full rounded-lg hover:bg-blue-700 transition">
           <LogOut className="w-5 h-5" />
           <span>Logout</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

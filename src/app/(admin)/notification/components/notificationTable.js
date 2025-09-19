@@ -100,7 +100,7 @@ export default function Notification() {
   const prevPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
   return (
-    <div className="my-10 min-h-[80vh] space-y-6">
+    <div className=" ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <h1 className="text-2xl font-bold text-gray-800">Total Notification</h1>

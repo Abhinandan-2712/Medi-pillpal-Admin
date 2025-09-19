@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Button from "@/components/Button";
+
 
 // ✅ Load editor only on client to avoid SSR errors
 const CKEditorClient = dynamic(() => import("./components/CustomEditor"), {
@@ -21,15 +23,17 @@ export default function TermsConditionPage() {
   };
 
   return (
-    <div className="p-4  mx-auto my-10 bg-white rounded-md shadow">
+    <div className="p-4  mx-auto my-10 bg-white rounded-md shadow ">
       <h1 className="text-2xl font-bold mb-4">Terms & Conditions</h1>
       <CKEditorClient value={content} onChange={setContent} />
-      <button
-        onClick={handleSave}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Save
-      </button>
+      <div className=" mt-4 flex justify-end">
+              <Button
+                onClick={handleSave}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+              >
+                Save
+              </Button>
+            </div>
     </div>
   );
 }

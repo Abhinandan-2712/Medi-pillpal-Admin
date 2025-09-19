@@ -163,7 +163,7 @@ const exportToPDF = () => {
   const prevPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
 
   return (
-    <div className="min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow">
+    <div className="min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <h1 className="text-2xl font-bold text-gray-800">Total Transaction</h1>
