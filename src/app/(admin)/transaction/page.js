@@ -189,7 +189,7 @@ export default function User() {
             <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
           </select>
-g
+
           <Input
             placeholder="Search by invoice, status, or method..."
             value={searchTerm}
