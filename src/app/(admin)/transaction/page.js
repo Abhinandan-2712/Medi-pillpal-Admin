@@ -2,7 +2,7 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";  
+import autoTable from "jspdf-autotable";
 import "jspdf-autotable";
 
 import { useState, useMemo } from "react";
@@ -75,25 +75,46 @@ export default function User() {
       date: "2025-09-10",
     },
   ];
-    // 🔄 Export to Excel
-const exportToExcel = async () => {
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet("Transactions");
+  // 🔄 Export to Excel
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Transactions");
 
-  // Header
-  worksheet.addRow([
-    "Sr No",
-    "Full Name",
-    "Email",
-    "Number",
-    "Patient Name",
-    "Status",
-    "Date",
-  ]);
-
-  // Data rows
-  invoices.forEach((inv) => {
+    // Header
     worksheet.addRow([
+      "Sr No",
+      "Full Name",
+      "Email",
+      "Number",
+      "Patient Name",
+      "Status",
+      "Date",
+    ]);
+
+    // Data rows
+    invoices.forEach((inv) => {
+      worksheet.addRow([
+        inv.srNo,
+        inv.fullName,
+        inv.email,
+        inv.number,
+        inv.patientName,
+        inv.status,
+        inv.date,
+      ]);
+    });
+
+    // Generate & download file
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), "transactions.xlsx");
+  };
+
+  // 🔄 Export to PDF
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Transaction Report", 14, 15);
+
+    const tableData = invoices.map((inv) => [
       inv.srNo,
       inv.fullName,
       inv.email,
@@ -102,38 +123,26 @@ const exportToExcel = async () => {
       inv.status,
       inv.date,
     ]);
-  });
 
-  // Generate & download file
-  const buffer = await workbook.xlsx.writeBuffer();
-  saveAs(new Blob([buffer]), "transactions.xlsx");
-};
+    autoTable(doc, {
+      // ✅ correct usage
+      head: [
+        [
+          "Sr No",
+          "Full Name",
+          "Email",
+          "Number",
+          "Patient Name",
+          "Status",
+          "Date",
+        ],
+      ],
+      body: tableData,
+      startY: 20,
+    });
 
-
-  // 🔄 Export to PDF
-const exportToPDF = () => {
-  const doc = new jsPDF();
-  doc.text("Transaction Report", 14, 15);
-
-  const tableData = invoices.map((inv) => [
-    inv.srNo,
-    inv.fullName,
-    inv.email,
-    inv.number,
-    inv.patientName,
-    inv.status,
-    inv.date,
-  ]);
-
-  autoTable(doc, {                     // ✅ correct usage
-    head: [["Sr No", "Full Name", "Email", "Number", "Patient Name", "Status", "Date"]],
-    body: tableData,
-    startY: 20,
-  });
-
-  doc.save("transactions.pdf");
-};
-
+    doc.save("transactions.pdf");
+  };
 
   // 🔍 Search
   const [searchTerm, setSearchTerm] = useState("");
@@ -168,11 +177,13 @@ const exportToPDF = () => {
       <div className="flex flex-col sm:flex-row justify-between gap-3">
         <h1 className="text-2xl font-bold text-gray-800">Total Transaction</h1>
 
-        <div className="flex items-center gap-3">
-          <Button onClick={exportToExcel}>Export Excel</Button>
-    <Button onClick={exportToPDF}>Export PDF</Button>
-          {/* Example filter dropdown */}
-          <select className="border rounded px-2 py-1 text-sm">
+        <div className="flex md:flex-row flex-col items-center gap-3">
+          <div className="flex items-center gap-3">
+            <Button onClick={exportToExcel}>Export Excel</Button>
+            <Button onClick={exportToPDF}>Export PDF</Button>
+          </div>
+          <div className="flex items-center gap-3">
+             <select className="border rounded px-2 py-1 text-sm">
             <option value="">All</option>
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
@@ -188,6 +199,11 @@ const exportToPDF = () => {
             }}
             className="max-w-sm"
           />
+
+          </div>
+
+          {/* Example filter dropdown */}
+         
         </div>
       </div>
 
@@ -196,7 +212,7 @@ const exportToPDF = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[120px]">Sr No.</TableHead>
-              <TableHead>Full name</TableHead>
+              <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Number</TableHead>
               <TableHead>Patients Name</TableHead>

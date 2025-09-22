@@ -132,7 +132,7 @@ export default function User() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[120px]">Sr No.</TableHead>
-              <TableHead>Full name</TableHead>
+              <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Number</TableHead>
               <TableHead>Patients Name</TableHead>

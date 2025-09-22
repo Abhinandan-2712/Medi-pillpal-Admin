@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Button from "@/components/Button";
+import {Button} from "@/components/ui/button";
 import { FiMenu, FiX } from "react-icons/fi"; // hamburger & close icons
 import Sidebar from "@/components/Sidebar";
 
@@ -84,7 +84,7 @@ export default function Navbar() {
             </h2>
             <div className="flex justify-center gap-4 flex-wrap">
               <Button onClick={handleLogout}>Yes, Logout</Button>
-              <Button onClick={() => setIsModalOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
             </div>
           </div>
         </div>
