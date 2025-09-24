@@ -1,3 +1,4 @@
+
 // "use client";
 
 // import { useState, useEffect } from "react";
@@ -11,28 +12,24 @@
 //   const [email, setEmail] = useState("");
 //   const [loading, setLoading] = useState(false);
 //   const [resendLoading, setResendLoading] = useState(false);
-
 //   const router = useRouter();
 
 //   useEffect(() => {
 //     const storedEmail = sessionStorage.getItem("forgotPasswordEmail");
-//     // console.log(storedEmail)
 //     if (storedEmail) setEmail(storedEmail);
 //     else {
-//       toast.error("No email found. Please try again.");
+//       toast.error("No email found. Please try again.",{id:"email_notfound"});
 //       router.push("/forgot-password");
 //     }
 //   }, [router]);
 
+//   // ===== Verify OTP Submit =====
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
+//     const formData = new FormData(e.target); // will contain hidden email
+//     formData.append("otp", otp);
 
-//     // Create FormData from the form
-//     const formData = new FormData(e.target);
-//     const emailFromForm = formData.get("email"); // get email from hidden input
-//     const otpFromForm = otp; // your OTP state
-
-//     if (otpFromForm.length !== 4) {
+//     if (otp.length !== 4) {
 //       toast.error("Please enter a valid 4-digit OTP!", { id: "valid" });
 //       return;
 //     }
@@ -41,33 +38,33 @@
 //       setLoading(true);
 //       const res = await axios.post(
 //         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admins/verify-otp`,
-//         { email: emailFromForm, otp: otpFromForm } // send email from form
+//         formData,
+//         { headers: { "Content-Type": "multipart/form-data" } }
 //       );
-//       // console.log(res);
 
 //       if (res?.data?.success) {
 //         toast.success(res.data.message || "OTP verified successfully!", {
 //           id: "success",
 //         });
-//         const securityToken = res?.data?.result.securityToken;
-//         sessionStorage.setItem("securityToken", securityToken);
-//         router.push("/change-password"); // redirect
+//         sessionStorage.setItem("securityToken", res.data.result.securityToken);
+//         router.push("/change-password");
 //       } else {
 //         toast.error(res?.data?.message || "Invalid OTP", { id: "invalid-otp" });
 //       }
 //     } catch (error) {
-//       console.error(error);
-//       toast.error(error.response?.data?.error || "Something went wrong!", {
-//         id: "error",
-//       });
+//       toast.error(
+//         error.response?.data?.error || "Something went wrong!",
+//         { id: "error" }
+//       );
 //     } finally {
 //       setLoading(false);
 //     }
 //   };
 
+//   // ===== Resend OTP =====
 //   const handleResendOtp = async () => {
 //     if (!email) {
-//       toast.error("Email not found to resend OTP");
+//       toast.error("Email not found to resend OTP",{id:"email"});
 //       return;
 //     }
 //     try {
@@ -80,15 +77,16 @@
 //         formData,
 //         { headers: { "Content-Type": "multipart/form-data" } }
 //       );
+//       console.log(res)
 
 //       if (res?.data?.success) {
-//         toast.success(res.data.message || "OTP resent successfully!");
+//         toast.success(res.data.message || "OTP resent successfully!",{id:"success"});
 //       } else {
-//         toast.error(res?.data?.message || "Failed to resend OTP");
+//         toast.error(res?.data?.message || "Failed to resend OTP",{id:"error"});
 //       }
 //     } catch (err) {
 //       toast.error(
-//         err.response?.data?.error || "Something went wrong while resending!"
+//         err.response?.data?.error || "Something went wrong while resending!",{id:"error"}
 //       );
 //     } finally {
 //       setResendLoading(false);
@@ -96,7 +94,7 @@
 //   };
 
 //   return (
-//     <div className="flex justify-center items-center  ">
+//     <div className="flex justify-center items-center">
 //       <form
 //         className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6 animate-fadeIn"
 //         onSubmit={handleSubmit}
@@ -105,10 +103,10 @@
 //           Enter Your OTP 🕐
 //         </h1>
 //         <p className="text-sm text-gray-500 text-center">
-//           Enter your otp and we’ll send you email
+//           Enter your OTP to verify your email
 //         </p>
 
-//         {/* Hidden input to hold email */}
+//         {/* hidden email field so FormData gets it */}
 //         <input type="hidden" name="email" value={email} />
 
 //         <div className="flex justify-center">
@@ -136,10 +134,12 @@
 
 //         <button
 //           type="submit"
+//           disabled={loading}
 //           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold shadow-md transition duration-200"
 //         >
-//           Verify OTP
+//           {loading ? "Verifying..." : "Verify OTP"}
 //         </button>
+
 //         <p className="text-center text-sm text-gray-600">
 //           Didn’t receive your OTP?{" "}
 //           <button
@@ -168,21 +168,33 @@ export default function OtpPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(30); // countdown in seconds
   const router = useRouter();
 
   useEffect(() => {
     const storedEmail = sessionStorage.getItem("forgotPasswordEmail");
     if (storedEmail) setEmail(storedEmail);
     else {
-      toast.error("No email found. Please try again.",{id:"email_notfound"});
+      toast.error("No email found. Please try again.", { id: "email_notfound" });
       router.push("/forgot-password");
     }
   }, [router]);
 
+  // ===== Resend OTP Timer =====
+  useEffect(() => {
+    if (resendTimer <= 0) return; // stop countdown when it reaches 0
+
+    const interval = setInterval(() => {
+      setResendTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
   // ===== Verify OTP Submit =====
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target); // will contain hidden email
+    const formData = new FormData(e.target);
     formData.append("otp", otp);
 
     if (otp.length !== 4) {
@@ -199,19 +211,14 @@ export default function OtpPage() {
       );
 
       if (res?.data?.success) {
-        toast.success(res.data.message || "OTP verified successfully!", {
-          id: "success",
-        });
+        toast.success(res.data.message || "OTP verified successfully!", { id: "success" });
         sessionStorage.setItem("securityToken", res.data.result.securityToken);
         router.push("/change-password");
       } else {
         toast.error(res?.data?.message || "Invalid OTP", { id: "invalid-otp" });
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.error || "Something went wrong!",
-        { id: "error" }
-      );
+      toast.error(error.response?.data?.error || "Something went wrong!", { id: "error" });
     } finally {
       setLoading(false);
     }
@@ -220,7 +227,7 @@ export default function OtpPage() {
   // ===== Resend OTP =====
   const handleResendOtp = async () => {
     if (!email) {
-      toast.error("Email not found to resend OTP",{id:"email"});
+      toast.error("Email not found to resend OTP", { id: "email" });
       return;
     }
     try {
@@ -233,17 +240,15 @@ export default function OtpPage() {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      console.log(res)
 
       if (res?.data?.success) {
-        toast.success(res.data.message || "OTP resent successfully!",{id:"success"});
+        toast.success(res.data.message || "OTP resent successfully!", { id: "success" });
+        setResendTimer(30); // restart 30s countdown
       } else {
-        toast.error(res?.data?.message || "Failed to resend OTP",{id:"error"});
+        toast.error(res?.data?.message || "Failed to resend OTP", { id: "error" });
       }
     } catch (err) {
-      toast.error(
-        err.response?.data?.error || "Something went wrong while resending!",{id:"error"}
-      );
+      toast.error(err.response?.data?.error || "Something went wrong while resending!", { id: "error" });
     } finally {
       setResendLoading(false);
     }
@@ -262,7 +267,6 @@ export default function OtpPage() {
           Enter your OTP to verify your email
         </p>
 
-        {/* hidden email field so FormData gets it */}
         <input type="hidden" name="email" value={email} />
 
         <div className="flex justify-center">
@@ -301,10 +305,16 @@ export default function OtpPage() {
           <button
             type="button"
             onClick={handleResendOtp}
-            disabled={resendLoading}
-            className="text-blue-600 hover:underline font-medium"
+            disabled={resendLoading || resendTimer > 0}
+            className={`text-blue-600 font-medium hover:underline ${
+              resendTimer > 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            {resendLoading ? "Resending..." : "Resend OTP"}
+            {resendLoading
+              ? "Resending..."
+              : resendTimer > 0
+              ? `Resend OTP in ${resendTimer}s`
+              : "Resend OTP"}
           </button>
         </p>
       </form>
