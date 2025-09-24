@@ -14,7 +14,7 @@ export default function ForgotPasswordPage() {
   
     e.preventDefault(); // Prevent page reload
     if (!email) {
-      toast.error("Please enter your email!");
+      toast.error("Please enter your email!",{id:"email"});
       return;
     }
 
@@ -26,14 +26,14 @@ export default function ForgotPasswordPage() {
       );
       // console.log(res);
       if (res?.data?.success) {
-        toast.success(res.data.message || "OTP sent successfully!");
+        toast.success(res.data.message || "OTP sent successfully!",{id:"success"});
         setEmail("");
         sessionStorage.setItem("forgotPasswordEmail", email);
          router.replace("/otp");
       }
       else if(!res?.data?.success){
         if(res?.data?.message=== "Admin not found"){
-           toast.error("Your are not a Admin, please check mail ");
+           toast.error("Your are not a Admin, please check mail ",{id:"not_admin"});
         }
       }
     } catch (error) {
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
         "Forgot password error:",
         error.response?.data || error.message
       );
-      toast.error(error.response?.data?.error || "Something went wrong!");
+      toast.error(error.response?.data?.error || "Something went wrong!",{id:"error"});
     } finally {
       setLoading(false);
     }

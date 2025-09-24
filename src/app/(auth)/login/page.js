@@ -104,12 +104,12 @@ export default function LoginPage() {
 
     // 🔹 Client-side validation
     if (!email || !password) {
-      toast.error("Please fill in all fields");
+      toast.error("Please fill in all fields",{id:"all_field"});
       return;
     }
 
     if (!validateEmail(email)) {
-      toast.error("Please enter a valid email");
+      toast.error("Please enter a valid email",{id:"email"});
       return;
     }
 
@@ -122,17 +122,17 @@ export default function LoginPage() {
       // console.log(res);
       if (res?.data?.success) {
         localStorage.setItem("token", res?.data?.result?.token);
-        toast.success("Login successful!");
+        toast.success("Login successful!",{id:"success"});
         // window.location.href = "/dashboard";
         router.replace("/dashboard");
       } else if (!res?.data?.success) {
-        if (res.data.message === "Password mismatch") {
+        if (res.data.message === "Password mismatch",{id:"wrong_pass"}) {
           toast.error("Password mismatch");
         }
       }
     } catch (err) {
       console.error("Login error:", err.response?.data || err.message);
-      toast.error(err.response?.data?.message || "Login failed");
+      toast.error(err.response?.data?.message || "Login failed",{id:"error"});
     } finally {
       setLoading(false);
     }

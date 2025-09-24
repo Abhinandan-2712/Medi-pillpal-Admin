@@ -147,15 +147,15 @@ export default function ForgotPasswordPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !securityToken) {
-      toast.error("Session expired. Please start the forgot password process again.");
+      toast.error("Session expired. Please start the forgot password process again.",{id:"session"});
       return;
     }
     if (!newPassword || !confirmPassword) {
-      toast.error("Please fill all fields");
+      toast.error("Please fill all fields",{id:"fields"});
       return;
     }
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error("Passwords do not match",{id:"password_mismatch"});
       return;
     }
 
@@ -174,14 +174,14 @@ export default function ForgotPasswordPage() {
       );
 
       if (res?.data?.success) {
-        toast.success(res.data.message || "Password reset successful!");
+        toast.success(res.data.message || "Password reset successful!",{id:"success"});
         router.replace("/login");
       } else {
-        toast.error(res?.data?.message || "Failed to reset password");
+        toast.error(res?.data?.message || "Failed to reset password",{id:"error"});
       }
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.error || "Something went wrong");
+      toast.error(err.response?.data?.error || "Something went wrong",{id:"error"});
     } finally {
       setLoading(false);
     }

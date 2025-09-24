@@ -174,7 +174,7 @@ export default function OtpPage() {
     const storedEmail = sessionStorage.getItem("forgotPasswordEmail");
     if (storedEmail) setEmail(storedEmail);
     else {
-      toast.error("No email found. Please try again.");
+      toast.error("No email found. Please try again.",{id:"email_notfound"});
       router.push("/forgot-password");
     }
   }, [router]);
@@ -220,7 +220,7 @@ export default function OtpPage() {
   // ===== Resend OTP =====
   const handleResendOtp = async () => {
     if (!email) {
-      toast.error("Email not found to resend OTP");
+      toast.error("Email not found to resend OTP",{id:"email"});
       return;
     }
     try {
@@ -236,13 +236,13 @@ export default function OtpPage() {
       console.log(res)
 
       if (res?.data?.success) {
-        toast.success(res.data.message || "OTP resent successfully!");
+        toast.success(res.data.message || "OTP resent successfully!",{id:"success"});
       } else {
-        toast.error(res?.data?.message || "Failed to resend OTP");
+        toast.error(res?.data?.message || "Failed to resend OTP",{id:"error"});
       }
     } catch (err) {
       toast.error(
-        err.response?.data?.error || "Something went wrong while resending!"
+        err.response?.data?.error || "Something went wrong while resending!",{id:"error"}
       );
     } finally {
       setResendLoading(false);
