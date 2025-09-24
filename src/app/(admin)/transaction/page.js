@@ -207,7 +207,7 @@ export default function User() {
         </div>
       </div>
 
-      <div className=" w-full overflow-x-auto ">
+      <div className=" w-full overflow-x-auto mt-2 ">
         <Table className="min-w-[900px] table-auto ">
           <TableHeader>
             <TableRow>

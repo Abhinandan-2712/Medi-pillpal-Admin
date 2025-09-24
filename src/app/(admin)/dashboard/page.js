@@ -70,11 +70,11 @@ export default function Dashboard() {
   };
 
   const revenueData = {
-    labels: ["Jan", "Feb", "Mar", "Apr"],
+    labels: ["Jan", "Feb", "Mar", "Apr", "may", "jun"],
     datasets: [
       {
         label: "Revenue",
-        data: [4000, 5000, 4500, 6000],
+        data: [4000, 5000, 4500, 7000, 3200, 5200],
         borderColor: "#4f46e5",
         backgroundColor: (ctx) => {
           const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
@@ -186,11 +186,11 @@ export default function Dashboard() {
       </div>
 
       {/* Charts */}
-      {/* <div className="grid gap-6 md:grid-cols-2 my-10">
-        <RevenueChart data={revenueData} baseOptions={baseOptions} />
-        <TransactionsChart data={txData} baseOptions={baseOptions} />
+      <div className="grid gap-6 md:grid-cols-2 my-10">
+        {/* <RevenueChart data={revenueData} baseOptions={baseOptions} /> */}
+        {/* <TransactionsChart data={txData} baseOptions={baseOptions} /> */}
       </div>
-      <div className="grid gap-6 md:grid-cols-3 my-10">
+      {/* <div className="grid gap-6 md:grid-cols-3 my-10">
         <UserDistributionChart data={userData} baseOptions={baseOptions} />
         <StatusDoughnut
           title="Guardians Status"
