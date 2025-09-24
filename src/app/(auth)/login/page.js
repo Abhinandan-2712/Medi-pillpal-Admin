@@ -127,7 +127,7 @@ export default function LoginPage() {
         router.replace("/dashboard");
       } else if (!res?.data?.success) {
         if (res.data.message === "Password mismatch",{id:"wrong_pass"}) {
-          toast.error("Password mismatch");
+          toast.error("Something went wrong..",{id:"error"});
         }
       }
     } catch (err) {
