@@ -148,7 +148,7 @@ export default function LoginPage() {
           Welcome Back 👋
         </h1>
         <p className="text-sm text-gray-500 text-center">
-          Please login to your account for test 
+          Please login to your account rr
         </p>
 
         <div className="space-y-4 relative">
