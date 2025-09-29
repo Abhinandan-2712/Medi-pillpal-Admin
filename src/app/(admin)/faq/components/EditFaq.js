@@ -1,6 +1,8 @@
 
 "use client";
 import { useState, useEffect } from "react";
+// import axios from "axios";
+import { toast } from "react-hot-toast";
 import {
   Card,
   CardHeader,
@@ -12,12 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import api from "@/lib/axiosClient"; 
 
-export default function EditFaq({ isOpen, onClose, faq }) {
+export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // ✅ jab faq change ho, fields ko pre-fill karo
+  // Pre-fill fields when faq changes
   useEffect(() => {
     if (faq) {
       setQuestion(faq.question || "");
@@ -27,15 +31,44 @@ export default function EditFaq({ isOpen, onClose, faq }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      id: faq?.id,
-      question,
-      answer,
-    });
-    // 👉 yahan actual update API call karein
-    onClose?.();
+    if (!faq?._id || !question || !answer) return;
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      // Use FormData for API
+      const formData = new FormData();
+      formData.append("question", question);
+      formData.append("answer", answer);
+
+      const response = await api.post(
+        `/api/faq/edit/${faq._id}`,
+        formData,
+        {
+          headers: {
+            token,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      // console.log(response);
+      if (response?.data?.success) {
+        toast.success("FAQ updated successfully!",{id:"success"});
+        onUpdated?.();
+        onClose?.();
+      }
+      else if(!response?.data?.success){
+         toast.error(response?.data?.message,{id:"success"});
+      }
+    } catch (err) {
+      console.error("Failed to update FAQ:", err);
+      toast.error("Failed to update FAQ. Please try again.",{id:"error"});
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,10 +94,17 @@ export default function EditFaq({ isOpen, onClose, faq }) {
             />
           </CardContent>
           <CardFooter className="flex justify-end gap-2 mt-2">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={loading}
+            >
               Cancel
             </Button>
-            <Button type="submit">Update</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Updating..." : "Update"}
+            </Button>
           </CardFooter>
         </form>
       </Card>
