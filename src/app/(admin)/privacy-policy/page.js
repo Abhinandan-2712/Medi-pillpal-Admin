@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="p-4  mx-auto my-10 bg-white rounded-md shadow ">
-      <h1 className="text-2xl font-bold mb-4">Privacy & Policy</h1>
+      <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
       <CKEditorClient value={content} onChange={setContent} />
       <div className=" mt-4 flex justify-end">
         <Button

@@ -26,7 +26,7 @@ export default function Sidebar() {
     { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
     {
       href: "/privacy-policy",
-      label: "Privacy and Policy",
+      label: "Privacy Policy",
       icon: MdOutlinePrivacyTip,
     },
     { href: "/term-contions", label: "Terms and Conditions", icon: GoCodeOfConduct },

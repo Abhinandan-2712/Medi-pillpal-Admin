@@ -38,7 +38,7 @@ export default function AdminLayout({ children }) {
       {/* Main area */}
       <div className="sm:ml-64">
         {/* Navbar */}
-        <div className="fixed top-0 sm:left-64 right-0 h-16  z-10 p-4">
+        <div className="fixed top-0 sm:left-64 left-0 right-0 h-16  z-10 p-4 ">
           <Navbar />
         </div>
 

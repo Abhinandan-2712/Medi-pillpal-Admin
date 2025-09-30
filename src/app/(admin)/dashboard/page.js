@@ -187,11 +187,11 @@ export default function Dashboard() {
 
       {/* Charts */}
       <div className="grid gap-6 md:grid-cols-2 my-10">
-        {/* <RevenueChart data={revenueData} baseOptions={baseOptions} /> */}
-        {/* <TransactionsChart data={txData} baseOptions={baseOptions} /> */}
+        <RevenueChart data={revenueData} baseOptions={baseOptions} />
+        <TransactionsChart data={txData} baseOptions={baseOptions} />
       </div>
-      {/* <div className="grid gap-6 md:grid-cols-3 my-10">
-        <UserDistributionChart data={userData} baseOptions={baseOptions} />
+      <div className="grid gap-6 md:grid-cols-3 my-10">
+        {/* <UserDistributionChart data={userData} baseOptions={baseOptions} /> */}
         <StatusDoughnut
           title="Guardians Status"
           chartData={guardianData}
@@ -207,7 +207,7 @@ export default function Dashboard() {
           chartData={caretakerData}
           baseOptions={baseOptions}
         />
-      </div> */}
+      </div>
     </div>
   );
 }

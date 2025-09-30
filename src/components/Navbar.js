@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import {Button} from "@/components/ui/button";
 import { FiMenu, FiX } from "react-icons/fi"; 
 import Sidebar from "@/components/Sidebar";
+import { toast } from "react-hot-toast";  
+
 
 export default function Navbar() {
   const router = useRouter();
@@ -14,6 +16,8 @@ export default function Navbar() {
   const handleLogout = () => {
     // console.log("User logged out");
     localStorage.removeItem("token");
+        toast.success("Logged out successfully!");
+
     setIsModalOpen(false);
     // window.location.href = "/login";
     router.replace("/login");
