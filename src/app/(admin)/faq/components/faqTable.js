@@ -16,7 +16,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import DeleteFaq from "./deleteFaq";
 import EditFaq from "./EditFaq";
-import api from "@/lib/axiosClient"; 
+import api from "@/lib/axiosClient";
 
 export default function FAQ() {
   const [showModal, setShowModal] = useState(false);
@@ -33,38 +33,48 @@ export default function FAQ() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Debounce search term
   useEffect(() => {
+    if (searchTerm === "") {
+      // Agar search clear ho gaya to debounce skip karo
+      setDebouncedSearch("");
+      return;
+    }
+
     const handler = setTimeout(() => setDebouncedSearch(searchTerm), 500);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  // Fetch FAQs from API
   const fetchFaqs = async () => {
     setLoading(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     try {
       const token = localStorage.getItem("token");
-      const res = await api.get(
-        `/api/faq/all`,
-        {
-          params: {
-            limit: rowsPerPage,
-            page: currentPage,
-            search: debouncedSearch,
-            status,
-          },
-          headers: { token },
-        }
-      );
+      const res = await api.get(`/api/faq/all`, {
+        params: {
+          limit: rowsPerPage,
+          page: currentPage,
+          search: debouncedSearch,
+          status,
+        },
+        headers: { token },
+        signal,
+      });
+// console.log(res)
       setFaqs(res.data.result.FAQ || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {
-      console.error("Failed to fetch FAQs:", err);
-      setFaqs([]);
-      setTotalPages(1);
+      if (err.name !== "CanceledError") {
+        console.error("Failed to fetch FAQs:", err);
+        setFaqs([]);
+        setTotalPages(1);
+      }
     } finally {
       setLoading(false);
     }
+
+    return () => controller.abort(); // cleanup
   };
 
   // Fetch whenever page, rowsPerPage, debouncedSearch, or status changes

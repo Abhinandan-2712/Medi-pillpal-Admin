@@ -23,7 +23,7 @@ export default function TermsConditionPage() {
         setFetching(true);
         const token = localStorage.getItem("token");
 
-        const response = await api.get("/api/termsAndConditions/getd", {
+        const response = await api.get("/api/termsAndConditions/get", {
           headers: { token },
         });
         // console.log(response.data?.result);

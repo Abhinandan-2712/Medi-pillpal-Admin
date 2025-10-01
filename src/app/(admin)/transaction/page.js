@@ -191,7 +191,7 @@ export default function User() {
           </select>
 
           <Input
-            placeholder="Search by invoice, status, or method..."
+            placeholder="Search by name, email..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);

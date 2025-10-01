@@ -14,7 +14,7 @@ export default function User() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 font-medium ${
+            className={`px-4 py-2 font-medium cursor-pointer ${
               activeTab === tab
                 ? "border-b-2 border-blue-500 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 bg-clip-text text-transparent font-medium"
                 : "text-gray-600"

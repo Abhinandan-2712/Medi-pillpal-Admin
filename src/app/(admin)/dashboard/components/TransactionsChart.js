@@ -10,7 +10,7 @@ export default function TransactionsChart({ data, baseOptions }) {
           ...baseOptions,
           plugins: {
             ...baseOptions.plugins,
-            title: { ...baseOptions.plugins.title, text: "Transactions per Month" },
+            title: { ...baseOptions.plugins.title, text: "Transactions Per Month" },
           },
         }}
       />

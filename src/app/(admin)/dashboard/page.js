@@ -105,11 +105,13 @@ export default function Dashboard() {
   };
 
   const guardianData = {
-    labels: ["Active", "Pending", "Blocked"],
+    labels: ["Active", "Blocked"],
     datasets: [
       {
-        data: [500, 100, 50],
-        backgroundColor: ["#155dfc", "#388df9", "#1c408c"],
+        data: [500, 50],
+        backgroundColor: ["#155dfc",
+          //  "#388df9",
+            "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
@@ -118,11 +120,13 @@ export default function Dashboard() {
   };
 
   const patientData = {
-    labels: ["Active", "Pending", "Blocked"],
+    labels: ["Active", "Blocked"],
     datasets: [
       {
-        data: [400, 80, 20],
-        backgroundColor: ["#155dfc", "#388df9", "#1c408c"],
+        data: [400, 20],
+        backgroundColor: ["#155dfc", 
+          // "#388df9", 
+          "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
@@ -131,11 +135,15 @@ export default function Dashboard() {
   };
 
   const caretakerData = {
-    labels: ["Active", "Pending", "Blocked"],
+    labels: ["Active", 
+      // "Pending",
+       "Blocked"],
     datasets: [
       {
-        data: [150, 40, 10],
-        backgroundColor: ["#155dfc", "#388df9", "#1c408c"],
+        data: [150, 10],
+        backgroundColor: ["#155dfc", 
+          // "#388df9",
+           "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
