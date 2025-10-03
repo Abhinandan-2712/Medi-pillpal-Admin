@@ -17,6 +17,7 @@ import { FiEdit } from "react-icons/fi";
 import DeleteFaq from "./deleteFaq";
 import EditFaq from "./EditFaq";
 import api from "@/lib/axiosClient";
+import toast from "react-hot-toast";
 
 export default function FAQ() {
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +41,10 @@ export default function FAQ() {
       return;
     }
 
-    const handler = setTimeout(() => setDebouncedSearch(searchTerm), 500);
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1); // 👉 yaha le aaya
+    }, 500);
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
@@ -48,7 +52,7 @@ export default function FAQ() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-
+    toast.dismiss();
     try {
       const token = localStorage.getItem("token");
       const res = await api.get(`/api/faq/all`, {
@@ -61,7 +65,7 @@ export default function FAQ() {
         headers: { token },
         signal,
       });
-// console.log(res)
+      // console.log(res)
       setFaqs(res.data.result.FAQ || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {
@@ -97,7 +101,7 @@ export default function FAQ() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1);
+              // setCurrentPage(1);
             }}
             className="w-full sm:w-64"
           />

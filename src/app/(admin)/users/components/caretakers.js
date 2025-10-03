@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,89 +10,79 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { FiEdit } from "react-icons/fi";
+import api from "@/lib/axiosClient";
+import toast from "react-hot-toast";
 
 export default function User() {
-  // ✅ Dummy data
-  const invoices = [
-    {
-      srNo: 1,
-      fullName: "Rahul Sharma",
-      email: "rahul.sharma@example.com",
-      number: "+91 9876543210",
-      patientName: "Ankit Sharma",
-      status: "Paid",
-      date: "2025-09-15",
-    },
-    {
-      srNo: 2,
-      fullName: "Priya Verma",
-      email: "priya.verma@example.com",
-      number: "+91 9123456780",
-      patientName: "Rohit Verma",
-      status: "Pending",
-      date: "2025-09-14",
-    },
-    {
-      srNo: 3,
-      fullName: "Amit Singh",
-      email: "amit.singh@example.com",
-      number: "+91 9988776655",
-      patientName: "Neha Singh",
-      status: "Failed",
-      date: "2025-09-13",
-    },
-    {
-      srNo: 4,
-      fullName: "Sneha Kapoor",
-      email: "sneha.kapoor@example.com",
-      number: "+91 9090909090",
-      patientName: "Karan Kapoor",
-      status: "Paid",
-      date: "2025-09-12",
-    },
-    {
-      srNo: 5,
-      fullName: "Vikas Mehta",
-      email: "vikas.mehta@example.com",
-      number: "+91 9811111111",
-      patientName: "Riya Mehta",
-      status: "Pending",
-      date: "2025-09-11",
-    },
-    {
-      srNo: 6,
-      fullName: "Anjali Desai",
-      email: "anjali.desai@example.com",
-      number: "+91 9876501234",
-      patientName: "Aarav Desai",
-      status: "Paid",
-      date: "2025-09-10",
-    },
-  ];
+  const [showModal, setShowModal] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedCaretakers, setSelectedCaretakers] = useState(null);
 
-  // 🔍 Search
+  const [caretakers, setCaretakers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
-  // 🔢 Pagination
+  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // ✅ Filter + paginate
-  const filteredInvoices = useMemo(() => {
-    return invoices.filter((inv) =>
-      `${inv.id} ${inv.status} ${inv.method}`
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
+  useEffect(() => {
+    if (searchTerm === "") {
+      // Agar search clear ho gaya to debounce skip karo
+      setDebouncedSearch("");
+      return;
+    }
+
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1); // 👉 yaha le aaya
+    }, 500);
+    return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const totalPages = Math.ceil(filteredInvoices.length / rowsPerPage);
-  const paginatedInvoices = filteredInvoices.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const fetchCaretakers = async () => {
+    setLoading(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    toast.dismiss();
 
-  // Handler helpers
+    try {
+      const token = localStorage.getItem("token");
+      const res = await api.get(`/api/caretaker/get-all`, {
+        params: {
+          limit: rowsPerPage,
+          page: currentPage,
+          search: debouncedSearch,
+          status,
+        },
+        headers: { token },
+        signal,
+      });
+      // console.log(res);
+      setCaretakers(res.data.result.caretakers || []);
+      setTotalPages(res.data.result.totalPage || 1);
+    } catch (err) {
+      if (err.name !== "CanceledError") {
+        console.error("Failed to fetch caretakers:", err);
+        setCaretakers([]);
+        setTotalPages(1);
+      }
+    } finally {
+      setLoading(false);
+    }
+
+    return () => controller.abort(); // cleanup
+  };
+
+  // Fetch whenever page, rowsPerPage, debouncedSearch, or status changes
+  useEffect(() => {
+    fetchCaretakers();
+  }, [rowsPerPage, currentPage, debouncedSearch, status]);
+
   const goToPage = (p) => setCurrentPage(p);
   const nextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
   const prevPage = () => setCurrentPage((p) => Math.max(p - 1, 1));
@@ -105,19 +95,19 @@ export default function User() {
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}
-          <select className="border rounded px-2 py-1 text-sm">
+          {/* <select className="border rounded px-2 py-1 text-sm">
             <option value="">All</option>
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
-          </select>
+          </select> */}
 
           <Input
-            placeholder="Search by invoice, status, or method..."
+            placeholder="Search by fullname, gender..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1);
+              // setCurrentPage(1);
             }}
             className="max-w-sm"
           />
@@ -130,30 +120,59 @@ export default function User() {
             <TableRow>
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
-              <TableHead>Email</TableHead>
+              <TableHead>Gender</TableHead>
               <TableHead>Number</TableHead>
-              <TableHead>Patients Name</TableHead>
               <TableHead>Status</TableHead>
+              {/* <TableHead>Action</TableHead> */}
               <TableHead className="text-right">Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedInvoices.length > 0 ? (
-              paginatedInvoices.map((inv) => (
-                <TableRow key={inv.srNo}>
-                  <TableCell className="font-medium">{inv.srNo}</TableCell>
-                  <TableCell>{inv.fullName}</TableCell>
-                  <TableCell>{inv.email}</TableCell>
-                  <TableCell>{inv.number}</TableCell>
-                  <TableCell>{inv.patientName}</TableCell>
-                  <TableCell>{inv.status}</TableCell>
-                  <TableCell className="text-right">{inv.date}</TableCell>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : caretakers.length > 0 ? (
+              caretakers.map((caretakers, idx) => (
+                <TableRow key={caretakers._id}>
+                  <TableCell>
+                    {(currentPage - 1) * rowsPerPage + idx + 1}
+                  </TableCell>
+                  <TableCell>{caretakers.fullName}</TableCell>
+                  <TableCell>{caretakers.gender}</TableCell>
+                  <TableCell>{caretakers.mobileNumber}</TableCell>
+                  <TableCell>{caretakers.status}</TableCell>
+                  {/* <TableCell>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => {
+                          setSelectedCaretakers(caretakers);
+                          setEditModalOpen(true);
+                        }}
+                      >
+                        <FiEdit />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedCaretakers(caretakers);
+                          setDeleteModalOpen(true);
+                        }}
+                      >
+                        <MdOutlineDeleteOutline />
+                      </button>
+                    </div>
+                  </TableCell> */}
+                  <TableCell className="text-right">
+                    {new Date(caretakers.createdAt).toLocaleDateString()}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-gray-500">
-                  No results found
+                <TableCell colSpan={6} className="text-center text-gray-500">
+                  No caretakers found
                 </TableCell>
               </TableRow>
             )}

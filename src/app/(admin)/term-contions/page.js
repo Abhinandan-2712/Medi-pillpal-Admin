@@ -20,6 +20,7 @@ export default function TermsConditionPage() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
+        toast.dismiss();
         setFetching(true);
         const token = localStorage.getItem("token");
 
@@ -33,7 +34,7 @@ export default function TermsConditionPage() {
         }
       } catch (err) {
         console.error(err);
-        toast.error("Failed to fetch terms & conditions");
+        toast.error("Failed to fetch terms & conditions", { id: "error" });
       } finally {
         setFetching(false);
       }
@@ -44,7 +45,7 @@ export default function TermsConditionPage() {
 
   const handleSave = async () => {
     if (!content.trim()) {
-      toast.error("Please add some content");
+      toast.error("Please add some content", { id: "content" });
       return;
     }
 
@@ -63,7 +64,7 @@ export default function TermsConditionPage() {
       });
       // console.log(response)
       if (response.data.success) {
-        toast.success(response.data?.message || "Policy saved successfully!", {
+        toast.success(response.data?.message || "Term & conditions saved successfully!", {
           id: "success",
         });
       }

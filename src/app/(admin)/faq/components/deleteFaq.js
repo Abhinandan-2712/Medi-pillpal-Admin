@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,7 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import api from "@/lib/axiosClient"; 
+import api from "@/lib/axiosClient";
 
 export default function DeleteFaq({ isOpen, onClose, faqId, onDeleted }) {
   const [loading, setLoading] = useState(false);
@@ -22,6 +21,7 @@ export default function DeleteFaq({ isOpen, onClose, faqId, onDeleted }) {
     if (!faqId) return;
 
     setLoading(true);
+    
     try {
       const token = localStorage.getItem("token");
       const response = await api.post(
@@ -29,13 +29,24 @@ export default function DeleteFaq({ isOpen, onClose, faqId, onDeleted }) {
         {},
         { headers: { token: token } }
       );
+      console.log(response);
       if (response?.data?.success) {
+        // toast.dismiss(); 
         toast.success("FAQ deleted successfully!", { id: "success" });
-        onDeleted?.(); // callback to refresh FAQ list
-        onClose?.(); // close modal
+        onDeleted?.(); 
+        onClose?.();
       }
-      else{
-        toast.error(response?.data?.message|| "Delete failed.", { id: "error" })
+      else if(response?.data?.message==="FAQ not found or already deleted"){
+         toast.success("FAQ deleted successfully!", { id: "success" });
+        onDeleted?.(); 
+        onClose?.();
+
+      }
+       else {
+      //  toast.dismiss(); 
+        toast.error(response?.data?.message || "Delete failed.", {
+          id: "error",
+        });
       }
     } catch (err) {
       console.error("Failed to delete FAQ:", err);
