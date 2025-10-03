@@ -1,6 +1,6 @@
 
 "use client";
-
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Guardian from "./components/guardians";
@@ -37,9 +37,12 @@ export default function User() {
       </div>
 
       <div className="mt-6">
+        <Suspense fallback={<p>Loading...</p>}>
         {activeTab === "Guardians" && <Guardian />}
         {activeTab === "Patients" && <Patients />}
         {activeTab === "Caretakers" && <Caretakers />}
+        </Suspense>
+        
       </div>
     </div>
   );
