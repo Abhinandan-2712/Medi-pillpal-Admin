@@ -1,3 +1,5 @@
+
+
 "use client";
 import Card from "@/components/CardGen";
 import {
@@ -16,6 +18,9 @@ import {
 import RevenueChart from "./components/RevenueChart";
 import TransactionsChart from "./components/TransactionsChart";
 import StatusDoughnut from "./components/UserDistributionChart";
+import { useRouter } from "next/navigation";
+import api from "@/lib/axiosClient";
+import { useEffect, useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +35,52 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
+  const router = useRouter();
+
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [cardData,setCardData]=useState(0)
+
+  useEffect(() => {
+    async function fetchStats() {
+      const token = localStorage.getItem("token");
+      try {
+        const res = await api.get("/api/admins/user-piechart", {
+          headers: { token },
+        });
+        if (res.data.success) {
+          setStats(res.data.result);
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem("token");
+      try {
+        // const res = await api.get("/api/admins/dashboard-piechart?range=year", {
+        const res = await api.get("/api/admins/admin-dashboard-piechart", {
+          headers: { token },
+        });
+        // console.log(res.data.result)
+        if (res.data.success) {
+          setCardData(res.data.result);
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
   const baseOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -70,7 +121,7 @@ export default function Dashboard() {
   };
 
   const revenueData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "may", "jun"],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         label: "Revenue",
@@ -104,14 +155,17 @@ export default function Dashboard() {
     ],
   };
 
-  const guardianData = {
+  // Only render charts when stats are available
+  const guardianData = stats && {
     labels: ["Active", "Blocked"],
     datasets: [
       {
-        data: [500, 50],
-        backgroundColor: ["#155dfc",
-          //  "#388df9",
-            "#1c408c"],
+        data: [
+          stats.totalActiveGuardians,
+          // stats.totalPendingGuardians,
+          stats.totalBlockedGuardians,
+        ],
+        backgroundColor: ["#155dfc", "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
@@ -119,14 +173,16 @@ export default function Dashboard() {
     ],
   };
 
-  const patientData = {
+  const patientData = stats && {
     labels: ["Active", "Blocked"],
     datasets: [
       {
-        data: [400, 20],
-        backgroundColor: ["#155dfc", 
-          // "#388df9", 
-          "#1c408c"],
+        data: [
+          stats.totalActivePatients,
+          // stats.totalPendingPatients,
+          stats.totalBlockedPatients,
+        ],
+        backgroundColor: ["#155dfc", "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
@@ -134,22 +190,24 @@ export default function Dashboard() {
     ],
   };
 
-  const caretakerData = {
-    labels: ["Active", 
-      // "Pending",
-       "Blocked"],
+  const caretakerData = stats && {
+    labels: ["Active", "Blocked"],
     datasets: [
       {
-        data: [150, 10],
-        backgroundColor: ["#155dfc", 
-          // "#388df9",
-           "#1c408c"],
+        data: [
+          stats.totalActiveCaretakers,
+          // stats.totalPendingCaretakers,
+          stats.totalBlockedCaretakers,
+        ],
+        backgroundColor: ["#155dfc", "#1c408c"],
         borderColor: "#fff",
         borderWidth: 2,
         hoverOffset: 8,
       },
     ],
   };
+
+  if (loading) return <div className="text-center my-10">Loading...</div>;
 
   return (
     <div className="my-10 min-h-[80vh] h-auto">
@@ -157,38 +215,41 @@ export default function Dashboard() {
       <div className="grid gap-5 md:grid-cols-3">
         <Card
           title="Total Guardians"
-          amount={1232}
-          percentage={12}
-          isIncrease={false}
+          amount={cardData?.cards[1].amount || 0}
+          percentage={cardData?.cards[1].percentage || 0}
+          isIncrease={cardData?.cards[1].isIncrease}
           para="Parents Who Have Visited So Far"
+          onClick={() => router.push("/users?tab=Guardians")}
         />
         <Card
           title="Total Patients"
-          amount={980}
-          percentage={8}
-          isIncrease={true}
+          amount={cardData?.cards[0].amount || 0}
+          percentage={cardData?.cards[0].percentage || 0}
+          isIncrease={cardData?.cards[0].isIncrease|| false}
           para="Patients Registered Till Date"
+          onClick={() => router.push("/users?tab=Patients")}
         />
         <Card
           title="Total Caretakers"
-          amount={320}
-          percentage={5}
-          isIncrease={true}
+          amount={cardData?.cards[2].amount || 0}
+          percentage={cardData?.cards[2].percentage || 0}
+          isIncrease={cardData?.cards[2].isIncrease}
           para="Active Caretakers So Far"
+          onClick={() => router.push("/users?tab=Caretakers")}
         />
         <Card
           title="Total Revenue Generated"
-          amount={45789}
-          percentage={15}
-          isIncrease={true}
+          amount={stats?.totalRevenue || "0"}
+          percentage={stats?.revenueChange || 0}
+          isIncrease={stats?.revenueChange >= 0}
           para="Overall Revenue Generated Till Now"
           isCurrency
         />
         <Card
           title="Total Transactions Processed"
-          amount={12500}
-          percentage={10}
-          isIncrease={true}
+          amount={stats?.totalTransactions || 0}
+          percentage={stats?.transactionChange || 0}
+          isIncrease={stats?.transactionChange >= 0}
           para="Successful Transactions Completed"
         />
       </div>
@@ -199,22 +260,25 @@ export default function Dashboard() {
         <TransactionsChart data={txData} baseOptions={baseOptions} />
       </div>
       <div className="grid gap-6 md:grid-cols-3 my-10">
-        {/* <UserDistributionChart data={userData} baseOptions={baseOptions} /> */}
-        <StatusDoughnut
-          title="Guardians Status"
-          chartData={guardianData}
-          baseOptions={baseOptions}
-        />
-        <StatusDoughnut
-          title="Patients Status"
-          chartData={patientData}
-          baseOptions={baseOptions}
-        />
-        <StatusDoughnut
-          title="Caretakers Status"
-          chartData={caretakerData}
-          baseOptions={baseOptions}
-        />
+        {stats && (
+          <>
+            <StatusDoughnut
+              title="Guardians Status"
+              chartData={guardianData}
+              baseOptions={baseOptions}
+            />
+            <StatusDoughnut
+              title="Patients Status"
+              chartData={patientData}
+              baseOptions={baseOptions}
+            />
+            <StatusDoughnut
+              title="Caretakers Status"
+              chartData={caretakerData}
+              baseOptions={baseOptions}
+            />
+          </>
+        )}
       </div>
     </div>
   );

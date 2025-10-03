@@ -19,8 +19,6 @@ export default function CKEditorClient({ value = "", onChange }) {
           "|",
           "bold",
           "italic",
-          "underline",
-          "strikethrough",
           "link",
           "|",
           "bulletedList",
@@ -28,13 +26,10 @@ export default function CKEditorClient({ value = "", onChange }) {
           "|",
           "blockQuote",
           "insertTable",
-          "imageUpload",
-          "mediaEmbed",
           "|",
           "undo",
           "redo",
         ],
-        
       }}
     />
   );

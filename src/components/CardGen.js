@@ -1,3 +1,4 @@
+
 import { IoIosTrendingDown, IoIosTrendingUp } from "react-icons/io";
 
 export default function Card({
@@ -7,9 +8,13 @@ export default function Card({
   isIncrease = true,
   para = "Parents Who Have Visited So Far",
   isCurrency = false,
+  onClick,
 }) {
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div
+      onClick={onClick} 
+      className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+    >
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div>

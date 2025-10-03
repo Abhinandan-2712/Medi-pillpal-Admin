@@ -24,13 +24,14 @@ export default function TermsConditionPage() {
         setFetching(true);
         const token = localStorage.getItem("token");
 
-        const response = await api.get("/api/termsAndConditions/get", {
+        const response = await api.get("/api/privacyPolicy/get", {
           headers: { token },
         });
-        // console.log(response.data?.result);
+        // console.log(response.data);
 
-        if (response.data?.result?.length > 0) {
-          setContent(response.data.result[0].content);
+        if (response.data?.success) {
+          setContent(response.data.result.content);
+          // console.log(response.data.result.content)
         }
       } catch (err) {
         console.error(err);
@@ -56,7 +57,7 @@ export default function TermsConditionPage() {
       const formData = new FormData();
       formData.append("content", content);
 
-      const response = await api.post("/api/termsAndConditions/add", formData, {
+      const response = await api.post("/api/privacyPolicy/create", formData, {
         headers: {
           token,
           "Content-Type": "multipart/form-data",

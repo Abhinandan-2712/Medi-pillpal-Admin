@@ -48,7 +48,7 @@ export default function User() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-    toast.dismiss()
+    toast.dismiss();
 
     try {
       const token = localStorage.getItem("token");
@@ -165,7 +165,11 @@ export default function User() {
                     </div>
                   </TableCell> */}
                   <TableCell className="text-right">
-                    {new Date(guardians.createdAt).toLocaleDateString()}
+                    {new Date(guardians.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                   </TableCell>
                 </TableRow>
               ))

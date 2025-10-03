@@ -1,14 +1,25 @@
+
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Guardian from "./components/guardians";
 import Caretakers from "./components/caretakers";
 import Patients from "./components/patients";
 
 export default function User() {
-  const [activeTab, setActiveTab] = useState("Guardians");
+  const searchParams = useSearchParams();
+  const queryTab = searchParams?.get("tab") || "Guardians";
+
+  const [activeTab, setActiveTab] = useState(queryTab);
+
+  // Update activeTab if search param changes
+  useEffect(() => {
+    setActiveTab(queryTab);
+  }, [queryTab]);
 
   return (
-    <div className=" min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow ">
+    <div className="min-h-[80vh] p-4 mx-auto my-10 bg-white rounded-md shadow">
       <div className="flex gap-4 border-b">
         {["Guardians", "Patients", "Caretakers"].map((tab) => (
           <button
