@@ -52,7 +52,7 @@ export default function FAQ() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-    toast.dismiss();
+    // toast.dismiss();
     try {
       const token = localStorage.getItem("token");
       const res = await api.get(`/api/faq/all`, {
