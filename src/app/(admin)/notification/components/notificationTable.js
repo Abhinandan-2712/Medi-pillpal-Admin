@@ -103,7 +103,7 @@ export default function Notification() {
     <div className=" ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-800">Total Notification</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Total Notifications</h1>
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}

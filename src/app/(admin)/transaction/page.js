@@ -175,7 +175,7 @@ export default function User() {
     <div className="min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-800">Total Transaction</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Total Transactions</h1>
 
         <div className="flex md:flex-row flex-col items-center gap-3">
           <div className="flex items-center gap-3">
