@@ -171,7 +171,7 @@ export default function FAQ() {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-gray-500">
-                  No FAQs founds
+                  No FAQs found
                 </TableCell>
               </TableRow>
             )}
