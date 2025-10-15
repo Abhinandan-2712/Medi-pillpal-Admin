@@ -91,7 +91,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
               </div>
 
               <div className="flex justify-between">
-                <span className="font-medium">Joining Date:</span>
+                <span className="font-medium">Joined Date:</span>
                 <span>
                   {guardian.createdAt
                     ? new Date(guardian.createdAt).toLocaleDateString("en-GB", {

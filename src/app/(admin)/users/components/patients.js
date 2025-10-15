@@ -125,7 +125,7 @@ export default function User() {
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Action</TableHead>
-              <TableHead>Joining Date</TableHead>
+              <TableHead>Joined Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

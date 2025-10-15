@@ -65,7 +65,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
           </div>
 
           <div className="flex justify-between">
-            <span className="font-medium">Joining Date:</span>
+            <span className="font-medium">Joined Date:</span>
             <span>
               {Caretakers.createdAt
                 ? new Date(Caretakers.createdAt).toLocaleDateString("en-GB", {
@@ -120,7 +120,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="font-medium">Joining Date:</span>
+                    <span className="font-medium">Joined Date:</span>
                     <span>
                       {patient.createdAt
                         ? new Date(patient.createdAt).toLocaleDateString(

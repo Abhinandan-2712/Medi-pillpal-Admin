@@ -191,7 +191,7 @@ export default function FAQ() {
               setCurrentPage(1);
             }}
           >
-            {[5, 10, 25, 50].map((n) => (
+            {[ 10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>

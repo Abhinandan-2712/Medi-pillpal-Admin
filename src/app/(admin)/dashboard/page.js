@@ -66,7 +66,7 @@ export default function Dashboard() {
       const token = localStorage.getItem("token");
       try {
         // const res = await api.get("/api/admins/dashboard-piechart?range=year", {
-        const res = await api.get("/api/admins/admin-dashboard-piechart", {
+        const res = await api.get("/api/admins/admin-dashboard-piechart?range=month", {
           headers: { token },
         });
         console.log(res.data.result)

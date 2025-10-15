@@ -20,60 +20,60 @@ import { Button } from "@/components/ui/button";
 export default function User() {
   // ✅ Dummy data
   const invoices = [
-    {
-      srNo: 1,
-      fullName: "Rahul Sharma",
-      email: "rahul.sharma@example.com",
-      number: "+91 9876543210",
-      patientName: "Ankit Sharma",
-      status: "Paid",
-      date: "2025-09-15",
-    },
-    {
-      srNo: 2,
-      fullName: "Priya Verma",
-      email: "priya.verma@example.com",
-      number: "+91 9123456780",
-      patientName: "Rohit Verma",
-      status: "Pending",
-      date: "2025-09-14",
-    },
-    {
-      srNo: 3,
-      fullName: "Amit Singh",
-      email: "amit.singh@example.com",
-      number: "+91 9988776655",
-      patientName: "Neha Singh",
-      status: "Failed",
-      date: "2025-09-13",
-    },
-    {
-      srNo: 4,
-      fullName: "Sneha Kapoor",
-      email: "sneha.kapoor@example.com",
-      number: "+91 9090909090",
-      patientName: "Karan Kapoor",
-      status: "Paid",
-      date: "2025-09-12",
-    },
-    {
-      srNo: 5,
-      fullName: "Vikas Mehta",
-      email: "vikas.mehta@example.com",
-      number: "+91 9811111111",
-      patientName: "Riya Mehta",
-      status: "Pending",
-      date: "2025-09-11",
-    },
-    {
-      srNo: 6,
-      fullName: "Anjali Desai",
-      email: "anjali.desai@example.com",
-      number: "+91 9876501234",
-      patientName: "Aarav Desai",
-      status: "Paid",
-      date: "2025-09-10",
-    },
+    // {
+    //   srNo: 1,
+    //   fullName: "Rahul Sharma",
+    //   email: "rahul.sharma@example.com",
+    //   number: "+91 9876543210",
+    //   patientName: "Ankit Sharma",
+    //   status: "Paid",
+    //   date: "2025-09-15",
+    // },
+    // {
+    //   srNo: 2,
+    //   fullName: "Priya Verma",
+    //   email: "priya.verma@example.com",
+    //   number: "+91 9123456780",
+    //   patientName: "Rohit Verma",
+    //   status: "Pending",
+    //   date: "2025-09-14",
+    // },
+    // {
+    //   srNo: 3,
+    //   fullName: "Amit Singh",
+    //   email: "amit.singh@example.com",
+    //   number: "+91 9988776655",
+    //   patientName: "Neha Singh",
+    //   status: "Failed",
+    //   date: "2025-09-13",
+    // },
+    // {
+    //   srNo: 4,
+    //   fullName: "Sneha Kapoor",
+    //   email: "sneha.kapoor@example.com",
+    //   number: "+91 9090909090",
+    //   patientName: "Karan Kapoor",
+    //   status: "Paid",
+    //   date: "2025-09-12",
+    // },
+    // {
+    //   srNo: 5,
+    //   fullName: "Vikas Mehta",
+    //   email: "vikas.mehta@example.com",
+    //   number: "+91 9811111111",
+    //   patientName: "Riya Mehta",
+    //   status: "Pending",
+    //   date: "2025-09-11",
+    // },
+    // {
+    //   srNo: 6,
+    //   fullName: "Anjali Desai",
+    //   email: "anjali.desai@example.com",
+    //   number: "+91 9876501234",
+    //   patientName: "Aarav Desai",
+    //   status: "Paid",
+    //   date: "2025-09-10",
+    // },
   ];
   // 🔄 Export to Excel
   const exportToExcel = async () => {
@@ -214,10 +214,10 @@ export default function User() {
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Number</TableHead>
+              <TableHead>Contact Number</TableHead>
               <TableHead>Patients Name</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Date</TableHead>
+              <TableHead className="text-right">Joined Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -257,7 +257,7 @@ export default function User() {
               setCurrentPage(1);
             }}
           >
-            {[5, 10, 25, 50].map((n) => (
+            {[ 10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>
