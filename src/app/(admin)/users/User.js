@@ -69,7 +69,7 @@ export default function User() {
   return (
     <div className="min-h-[80vh] p-4 mx-auto my-10 bg-white rounded-md shadow">
       <div className="flex gap-4 border-b">
-        {["Guardians", "Patients", "Caretakers"].map((tab) => (
+        {["Guardians", "Patients", "Caregivers"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -88,7 +88,7 @@ export default function User() {
         <Suspense fallback={<p>Loading...</p>}>
           {activeTab === "Guardians" && <Guardian />}
           {activeTab === "Patients" && <Patients />}
-          {activeTab === "Caretakers" && <Caretakers />}
+          {activeTab === "Caregivers" && <Caretakers />}
         </Suspense>
       </div>
     </div>

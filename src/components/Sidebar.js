@@ -20,10 +20,10 @@ export default function Sidebar() {
     { href: "/users", label: "User Management", icon: Users },
     {
       href: "/notification",
-      label: "Notification",
+      label: "Notifications",
       icon: MdOutlineNotificationsActive,
     },
-    { href: "/transaction", label: "Transaction", icon: TbTransactionDollar },
+    { href: "/transaction", label: "Transactions", icon: TbTransactionDollar },
     {
       href: "/privacy-policy",
       label: "Privacy Policy",

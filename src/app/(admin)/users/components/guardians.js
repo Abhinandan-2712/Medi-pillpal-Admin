@@ -11,9 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { FiEye } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
+import ViewPatients from "./viewGuardians";
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -91,7 +93,7 @@ export default function User() {
     <div className="my-10 min-h-[80vh] space-y-6">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-800">Total Guardians</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Guardians</h1>
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}
@@ -121,10 +123,10 @@ export default function User() {
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
-              <TableHead>Number</TableHead>
+              <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
-              {/* <TableHead>Action</TableHead> */}
-              <TableHead className="text-right">Date</TableHead>
+              <TableHead>Action</TableHead>
+              <TableHead>Joining Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -144,8 +146,16 @@ export default function User() {
                   <TableCell>{guardians.gender}</TableCell>
                   <TableCell>{guardians.mobileNumber}</TableCell>
                   <TableCell>{guardians.status}</TableCell>
-                  {/* <TableCell>
+                  <TableCell>
                     <div className="flex gap-4">
+                      <button
+                        onClick={() => {
+                          setSelectedGuardians(guardians);
+                          setShowModal(true);
+                        }}
+                      >
+                        <FiEye />
+                      </button>
                       <button
                         onClick={() => {
                           setSelectedGuardians(guardians);
@@ -163,8 +173,8 @@ export default function User() {
                         <MdOutlineDeleteOutline />
                       </button>
                     </div>
-                  </TableCell> */}
-                  <TableCell className="text-right">
+                  </TableCell>
+                  <TableCell>
                     {new Date(guardians.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "2-digit",
@@ -197,7 +207,7 @@ export default function User() {
               setCurrentPage(1);
             }}
           >
-            {[5, 10, 25, 50].map((n) => (
+            {[ 10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>
@@ -251,6 +261,11 @@ export default function User() {
           </Button>
         </div>
       </div>
+      <ViewPatients
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        Guardian={selectedGuardians}
+      />
     </div>
   );
 }

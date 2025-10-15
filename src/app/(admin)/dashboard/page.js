@@ -48,6 +48,7 @@ export default function Dashboard() {
         const res = await api.get("/api/admins/user-piechart", {
           headers: { token },
         });
+        console.log(res)
         if (res.data.success) {
           setStats(res.data.result);
         }
@@ -68,7 +69,7 @@ export default function Dashboard() {
         const res = await api.get("/api/admins/admin-dashboard-piechart", {
           headers: { token },
         });
-        // console.log(res.data.result)
+        console.log(res.data.result)
         if (res.data.success) {
           setCardData(res.data.result);
         }
@@ -230,12 +231,12 @@ export default function Dashboard() {
           onClick={() => router.push("/users?tab=Patients")}
         />
         <Card
-          title="Total Caretakers"
+          title="Total Caregivers"
           amount={cardData?.cards[2].amount || 0}
           percentage={cardData?.cards[2].percentage || 0}
           isIncrease={cardData?.cards[2].isIncrease}
-          para="Active Caretakers So Far"
-          onClick={() => router.push("/users?tab=Caretakers")}
+          para="Active Caregivers So Far"
+          onClick={() => router.push("/users?tab=Caregivers")}
         />
         <Card
           title="Total Revenue Generated"
@@ -273,7 +274,7 @@ export default function Dashboard() {
               baseOptions={baseOptions}
             />
             <StatusDoughnut
-              title="Caretakers Status"
+              title="Caregivers Status"
               chartData={caretakerData}
               baseOptions={baseOptions}
             />
