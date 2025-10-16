@@ -18,7 +18,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <Card className="w-full max-w-2xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
         {/* --- Caretakers Details --- */}
         {Caretakers.profilePhoto && (
           <div className="flex justify-center mt-4">
@@ -41,27 +41,27 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
         <CardContent className="space-y-3 text-gray-700 border-b pb-4">
           <div className="flex justify-between">
             <span className="font-medium">Full Name:</span>
-            <span>{Caretakers.fullName || "—"}</span>
+            <span>{Caretakers.fullName || " "}</span>
           </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Gender:</span>
-            <span>{Caretakers.gender || "—"}</span>
+            <span>{Caretakers.gender || " "}</span>
           </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Contact Number:</span>
-            <span>{Caretakers.mobileNumber || "—"}</span>
+            <span>{Caretakers.mobileNumber || " "}</span>
           </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Email:</span>
-            <span>{Caretakers.email || "—"}</span>
+            <span>{Caretakers.email || " "}</span>
           </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Status:</span>
-            <span>{Caretakers.status || "—"}</span>
+            <span>{Caretakers.status || " "}</span>
           </div>
 
           <div className="flex justify-between">
@@ -73,7 +73,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
                     month: "2-digit",
                     year: "numeric",
                   })
-                : "—"}
+                : " "}
             </span>
           </div>
         </CardContent>
@@ -96,27 +96,27 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
                 >
                   <div className="flex justify-between">
                     <span className="font-medium">Full Name:</span>
-                    <span>{patient.fullName || "—"}</span>
+                    <span>{patient.fullName || ""}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="font-medium">Gender:</span>
-                    <span>{patient.gender || "—"}</span>
+                    <span>{patient.gender || " "}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="font-medium">Age:</span>
-                    <span>{patient.age || "—"}</span>
+                    <span>{patient.age || " "}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="font-medium">Contact Number:</span>
-                    <span>{patient.mobileNumber || "—"}</span>
+                    <span>{patient.mobileNumber || " "}</span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="font-medium">Status:</span>
-                    <span>{patient.status || "—"}</span>
+                    <span>{patient.status || " "}</span>
                   </div>
 
                   <div className="flex justify-between">
@@ -131,7 +131,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
                               year: "numeric",
                             }
                           )
-                        : "—"}
+                        : " "}
                     </span>
                   </div>
                 </div>
