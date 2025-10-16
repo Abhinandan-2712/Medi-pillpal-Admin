@@ -56,7 +56,7 @@ export default function NewNotification({ isOpen, onClose }) {
                 <SelectItem value="All">All</SelectItem>
                 <SelectItem value="Guardians">Guardians</SelectItem>
                 <SelectItem value="Patients">Patients</SelectItem>
-                <SelectItem value="Caretakers">Caretakers</SelectItem>
+                <SelectItem value="Caregivers">Caregivers</SelectItem>
               </SelectContent>
             </Select>
           </CardContent>

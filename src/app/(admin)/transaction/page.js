@@ -20,60 +20,96 @@ import { Button } from "@/components/ui/button";
 export default function User() {
   // ✅ Dummy data
   const invoices = [
-    // {
-    //   srNo: 1,
-    //   fullName: "Rahul Sharma",
-    //   email: "rahul.sharma@example.com",
-    //   number: "+91 9876543210",
-    //   patientName: "Ankit Sharma",
-    //   status: "Paid",
-    //   date: "2025-09-15",
-    // },
-    // {
-    //   srNo: 2,
-    //   fullName: "Priya Verma",
-    //   email: "priya.verma@example.com",
-    //   number: "+91 9123456780",
-    //   patientName: "Rohit Verma",
-    //   status: "Pending",
-    //   date: "2025-09-14",
-    // },
-    // {
-    //   srNo: 3,
-    //   fullName: "Amit Singh",
-    //   email: "amit.singh@example.com",
-    //   number: "+91 9988776655",
-    //   patientName: "Neha Singh",
-    //   status: "Failed",
-    //   date: "2025-09-13",
-    // },
-    // {
-    //   srNo: 4,
-    //   fullName: "Sneha Kapoor",
-    //   email: "sneha.kapoor@example.com",
-    //   number: "+91 9090909090",
-    //   patientName: "Karan Kapoor",
-    //   status: "Paid",
-    //   date: "2025-09-12",
-    // },
-    // {
-    //   srNo: 5,
-    //   fullName: "Vikas Mehta",
-    //   email: "vikas.mehta@example.com",
-    //   number: "+91 9811111111",
-    //   patientName: "Riya Mehta",
-    //   status: "Pending",
-    //   date: "2025-09-11",
-    // },
-    // {
-    //   srNo: 6,
-    //   fullName: "Anjali Desai",
-    //   email: "anjali.desai@example.com",
-    //   number: "+91 9876501234",
-    //   patientName: "Aarav Desai",
-    //   status: "Paid",
-    //   date: "2025-09-10",
-    // },
+    {
+      srNo: 1,
+      fullName: "Rahul Sharma",
+      email: "rahul.sharma@example.com",
+      number: "+91 9876543210",
+      patientName: "Ankit Sharma",
+      status: "Paid",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 2,
+      fullName: "Priya Verma",
+      email: "priya.verma@example.com",
+      number: "+91 9123456780",
+      patientName: "Rohit Verma",
+      status: "Pending",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 3,
+      fullName: "Amit Singh",
+      email: "amit.singh@example.com",
+      number: "+91 9988776655",
+      patientName: "Neha Singh",
+      status: "Failed",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 4,
+      fullName: "Sneha Kapoor",
+      email: "sneha.kapoor@example.com",
+      number: "+91 9090909090",
+      patientName: "Karan Kapoor",
+      status: "Paid",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 5,
+      fullName: "Vikas Mehta",
+      email: "vikas.mehta@example.com",
+      number: "+91 9811111111",
+      patientName: "Riya Mehta",
+      status: "Pending",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 6,
+      fullName: "Anjali Desai",
+      email: "anjali.desai@example.com",
+      number: "+91 9876501234",
+      patientName: "Aarav Desai",
+      status: "Paid",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 7,
+      fullName: "Vikas Mehta",
+      email: "vikas.mehta@example.com",
+      number: "+91 9811111111",
+      patientName: "Riya Mehta",
+      status: "Pending",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 8,
+      fullName: "Anjali Desai",
+      email: "anjali.desai@example.com",
+      number: "+91 9876501234",
+      patientName: "Aarav Desai",
+      status: "Paid",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 9,
+      fullName: "Vikas Mehta",
+      email: "vikas.mehta@example.com",
+      number: "+91 9811111111",
+      patientName: "Riya Mehta",
+      status: "Pending",
+      date: "10/10/2025",
+    },
+    {
+      srNo: 10,
+      fullName: "Anjali Desai",
+      email: "anjali.desai@example.com",
+      number: "+91 9876501234",
+      patientName: "Aarav Desai",
+      status: "Paid",
+      date: "10/10/2025",
+    },
   ];
   // 🔄 Export to Excel
   const exportToExcel = async () => {
@@ -149,7 +185,7 @@ export default function User() {
 
   // 🔢 Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // ✅ Filter + paginate
   const filteredInvoices = useMemo(() => {
@@ -175,7 +211,7 @@ export default function User() {
     <div className="min-h-[80vh] p-4  mx-auto my-10 bg-white rounded-md shadow ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-800">Total Transactions</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Transactions</h1>
 
         <div className="flex md:flex-row flex-col items-center gap-3">
           <div className="flex items-center gap-3">
@@ -183,12 +219,12 @@ export default function User() {
             <Button onClick={exportToPDF}>Export PDF</Button>
           </div>
           <div className="flex items-center gap-3">
-             <select className="border rounded px-2 py-1 text-sm">
+             {/* <select className="border rounded px-2 py-1 text-sm">
             <option value="">All</option>
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
-          </select>
+          </select> */}
 
           <Input
             placeholder="Search by name, email..."
@@ -217,7 +253,10 @@ export default function User() {
               <TableHead>Contact Number</TableHead>
               <TableHead>Patients Name</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Joined Date</TableHead>
+              <TableHead className="text-right">Payment Date
+                   <br />
+                (DD/MM/YYYY)
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

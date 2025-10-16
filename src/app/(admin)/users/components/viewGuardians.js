@@ -14,6 +14,8 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
 
   // Suppose Guardian.patients = [ { fullName, gender, mobileNumber, status, createdAt }, ... ]
   const patients = Guardian.patients || [];
+  const caretakers = Guardian.caretakers || [];
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -139,6 +141,70 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
           ) : (
             <p className="text-gray-500 text-center">
               No patients found under this guardian.
+            </p>
+          )}
+        </CardContent>
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">
+            Caregivers Details
+          </CardTitle>
+          <CardDescription>Caregivers linked with this guardian.</CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-3 text-gray-700">
+          {caretakers.length > 0 ? (
+            <div className="space-y-3">
+              {caretakers.map((patient, index) => (
+                <div
+                  key={patient._id || index}
+                  className="border p-3 rounded-lg bg-gray-50"
+                >
+                  <div className="flex justify-between">
+                    <span className="font-medium">Full Name:</span>
+                    <span>{patient.fullName || ""}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Gender:</span>
+                    <span>{patient.gender || ""}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Age:</span>
+                    <span>{patient.age || ""}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Contact Number:</span>
+                    <span>{patient.mobileNumber || ""}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Status:</span>
+                    <span>{patient.status || ""}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="font-medium">Joined Date:</span>
+                    <span>
+                      {patient.createdAt
+                        ? new Date(patient.createdAt).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )
+                        : ""}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-center">
+              No caregiver found under this guardian.
             </p>
           )}
         </CardContent>

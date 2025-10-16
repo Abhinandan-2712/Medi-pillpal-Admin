@@ -123,8 +123,12 @@ export default function FAQ() {
               <TableHead>Question</TableHead>
               <TableHead>Answer</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>
+                Date <br />
+                (DD/MM/YYYY)
+              </TableHead>
               <TableHead>Action</TableHead>
-              <TableHead className="text-right">Date</TableHead>
+              
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -141,11 +145,26 @@ export default function FAQ() {
                     {(currentPage - 1) * rowsPerPage + idx + 1}
                   </TableCell>
                   <TableCell>{faq.question}</TableCell>
-                  <TableCell>{faq.answer}</TableCell>
+                  <TableCell
+                    // style={{
+                    //   display: "-webkit-box",
+                    //   WebkitLineClamp: 5,
+                    //   WebkitBoxOrient: "vertical",
+                    //   overflow: "hidden",
+                    //   maxWidth: "300px",
+                    // }}
+                    title={faq.answer}
+                  >
+                    {faq.answer}
+                  </TableCell>
                   <TableCell>{faq.status}</TableCell>
+                   <TableCell >
+                    {new Date(faq.createdAt).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
                       <button
+                      className="text-green-500"
                         onClick={() => {
                           setSelectedFaq(faq);
                           setEditModalOpen(true);
@@ -154,6 +173,7 @@ export default function FAQ() {
                         <FiEdit />
                       </button>
                       <button
+                      className=" text-red-500"
                         onClick={() => {
                           setSelectedFaq(faq);
                           setDeleteModalOpen(true);
@@ -163,9 +183,7 @@ export default function FAQ() {
                       </button>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right">
-                    {new Date(faq.createdAt).toLocaleDateString()}
-                  </TableCell>
+                 
                 </TableRow>
               ))
             ) : (
@@ -191,7 +209,7 @@ export default function FAQ() {
               setCurrentPage(1);
             }}
           >
-            {[ 10, 25, 50].map((n) => (
+            {[10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>

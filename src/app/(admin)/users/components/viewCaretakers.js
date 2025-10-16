@@ -15,6 +15,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
 
   // Suppose Caretakers.patients = [ { fullName, gender, mobileNumber, status, createdAt }, ... ]
   const patients = Caretakers.patients || [];
+  const guardian = Caretakers.guardianId || [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -31,10 +32,10 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
         )}
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
-            Caretakers Details
+            Caregiver Details
           </CardTitle>
           <CardDescription>
-            View complete information about this guardian.
+            View complete information about this Caregiver.
           </CardDescription>
         </CardHeader>
 
@@ -83,7 +84,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
           <CardTitle className="text-xl font-semibold">
             Patients Details
           </CardTitle>
-          <CardDescription>Patients linked with this guardian.</CardDescription>
+          <CardDescription>Patients linked with this Caregiver.</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
@@ -139,7 +140,62 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
             </div>
           ) : (
             <p className="text-gray-500 text-center">
-              No patients found under this guardian.
+              No patients found under this caregiver.
+            </p>
+          )}
+        </CardContent>
+
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">
+            Guardian Details
+          </CardTitle>
+          <CardDescription>guardian linked with this Caregiver.</CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-3 text-gray-700">
+          {guardian===null ? (
+            <div className="border p-3 rounded-lg bg-gray-50">
+              <div className="flex justify-between">
+                <span className="font-medium">Full Name:</span>
+                <span>{guardian.fullName || " "}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-medium">Gender:</span>
+                <span>{guardian.gender || " "}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-medium">Age:</span>
+                <span>{guardian.age || " "}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-medium">Contact Number:</span>
+                <span>{guardian.mobileNumber || " "}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-medium">Status:</span>
+                <span>{guardian.status || " "}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="font-medium">Joined Date:</span>
+                <span>
+                  {guardian.createdAt
+                    ? new Date(guardian.createdAt).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : " "}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-500 text-center">
+              No guardian linked with this caregiver.
             </p>
           )}
         </CardContent>

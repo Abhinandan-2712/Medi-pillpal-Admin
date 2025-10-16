@@ -15,7 +15,8 @@ import { FiEye } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
-import ViewCaretakers from "./viewCaretakers"
+import ViewCaretakers from "./viewCaretakers";
+import { MdBlockFlipped } from "react-icons/md";
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -123,10 +124,15 @@ export default function User() {
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
+              <TableHead>Age</TableHead>
+
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Joined Date
+                   <br />
+                (DD/MM/YYYY)
+              </TableHead>
               <TableHead>Action</TableHead>
-              <TableHead >Joined Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -144,11 +150,23 @@ export default function User() {
                   </TableCell>
                   <TableCell>{caretakers.fullName}</TableCell>
                   <TableCell>{caretakers.gender}</TableCell>
-                  <TableCell>{caretakers.mobileNumber}</TableCell>
+                  <TableCell>{caretakers.age}</TableCell>
+                  <TableCell>+{caretakers.mobileNumber}</TableCell>
                   <TableCell>{caretakers.status}</TableCell>
+                  <TableCell>
+                    {new Date(caretakers.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      }
+                    )}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
                       <button
+                       className=" text-green-500"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
                           setShowModal(true);
@@ -156,30 +174,24 @@ export default function User() {
                       >
                         <FiEye />
                       </button>
-                      <button
+                      {/* <button
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
                           setEditModalOpen(true);
                         }}
                       >
                         <FiEdit />
-                      </button>
+                      </button> */}
                       <button
+                      className=" text-red-500"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
                           setDeleteModalOpen(true);
                         }}
                       >
-                        <MdOutlineDeleteOutline />
+                        <MdBlockFlipped />
                       </button>
                     </div>
-                  </TableCell>
-                  <TableCell >
-                    {new Date(caretakers.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
                   </TableCell>
                 </TableRow>
               ))
@@ -207,7 +219,7 @@ export default function User() {
               setCurrentPage(1);
             }}
           >
-            {[ 10, 25, 50].map((n) => (
+            {[10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>
@@ -262,10 +274,10 @@ export default function User() {
         </div>
       </div>
       <ViewCaretakers
-              isOpen={showModal}
-              onClose={() => setShowModal(false)}
-              Caretakers={selectedCaretakers}
-            />
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        Caretakers={selectedCaretakers}
+      />
     </div>
   );
 }

@@ -16,6 +16,7 @@ import { FiEdit } from "react-icons/fi";
 import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
 import ViewPatients from "./viewGuardians";
+import { MdBlockFlipped } from "react-icons/md";
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -123,10 +124,16 @@ export default function User() {
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
+              <TableHead>Age</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>
+                Joined Date
+                <br />
+                (DD/MM/YYYY)
+              </TableHead>
+
               <TableHead>Action</TableHead>
-              <TableHead>Joined Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -144,11 +151,20 @@ export default function User() {
                   </TableCell>
                   <TableCell>{guardians.fullName}</TableCell>
                   <TableCell>{guardians.gender}</TableCell>
-                  <TableCell>{guardians.mobileNumber}</TableCell>
+                  <TableCell>{guardians.age}</TableCell>
+                  <TableCell>+{guardians.mobileNumber}</TableCell>
                   <TableCell>{guardians.status}</TableCell>
+                  <TableCell>
+                    {new Date(guardians.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
                       <button
+                       className=" text-green-500"
                         onClick={() => {
                           setSelectedGuardians(guardians);
                           setShowModal(true);
@@ -156,30 +172,24 @@ export default function User() {
                       >
                         <FiEye />
                       </button>
-                      <button
+                      {/* <button
                         onClick={() => {
                           setSelectedGuardians(guardians);
                           setEditModalOpen(true);
                         }}
                       >
                         <FiEdit />
-                      </button>
+                      </button> */}
                       <button
+                      className=" text-red-500"
                         onClick={() => {
                           setSelectedGuardians(guardians);
                           setDeleteModalOpen(true);
                         }}
                       >
-                        <MdOutlineDeleteOutline />
+                        <MdBlockFlipped />
                       </button>
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(guardians.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
                   </TableCell>
                 </TableRow>
               ))
@@ -207,7 +217,7 @@ export default function User() {
               setCurrentPage(1);
             }}
           >
-            {[ 10, 25, 50].map((n) => (
+            {[10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>

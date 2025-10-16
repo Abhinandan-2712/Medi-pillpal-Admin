@@ -16,60 +16,128 @@ export default function Notification() {
   const [showModal, setShowModal] = useState(false);
   // ✅ Dummy data
   const invoices = [
-    // {
-    //   srNo: 1,
-    //   fullName: "Rahul Sharma",
-    //   email: "rahul.sharma@example.com",
-    //   number: "+91 9876543210",
-    //   patientName: "Ankit Sharma",
-    //   status: "Paid",
-    //   date: "2025-09-15",
-    // },
-    // {
-    //   srNo: 2,
-    //   fullName: "Priya Verma",
-    //   email: "priya.verma@example.com",
-    //   number: "+91 9123456780",
-    //   patientName: "Rohit Verma",
-    //   status: "Pending",
-    //   date: "2025-09-14",
-    // },
-    // {
-    //   srNo: 3,
-    //   fullName: "Amit Singh",
-    //   email: "amit.singh@example.com",
-    //   number: "+91 9988776655",
-    //   patientName: "Neha Singh",
-    //   status: "Failed",
-    //   date: "2025-09-13",
-    // },
-    // {
-    //   srNo: 4,
-    //   fullName: "Sneha Kapoor",
-    //   email: "sneha.kapoor@example.com",
-    //   number: "+91 9090909090",
-    //   patientName: "Karan Kapoor",
-    //   status: "Paid",
-    //   date: "2025-09-12",
-    // },
-    // {
-    //   srNo: 5,
-    //   fullName: "Vikas Mehta",
-    //   email: "vikas.mehta@example.com",
-    //   number: "+91 9811111111",
-    //   patientName: "Riya Mehta",
-    //   status: "Pending",
-    //   date: "2025-09-11",
-    // },
-    // {
-    //   srNo: 6,
-    //   fullName: "Anjali Desai",
-    //   email: "anjali.desai@example.com",
-    //   number: "+91 9876501234",
-    //   patientName: "Aarav Desai",
-    //   status: "Paid",
-    //   date: "2025-09-10",
-    // },
+    {
+      srNo: 1,
+      fullName: "John Smith",
+      email: "john.smith@example.com",
+      number: "+1 202-555-0110",
+      status: "Sent",
+      date: "10/10/2025",
+      type: "patient",
+      message:
+        "Your upcoming appointment is scheduled for Oct 20th at 10:00 AM.",
+    },
+    {
+      srNo: 2,
+      fullName: "Emily Johnson",
+      email: "emily.johnson@example.com",
+      number: "+1 202-555-0121",
+      status: "Pending",
+      date: "09/10/2025",
+      type: "caretaker",
+      message:
+        "Please complete your caretaker profile to start accepting assignments.",
+    },
+    {
+      srNo: 3,
+      fullName: "Michael Williams",
+      email: "michael.williams@example.com",
+      number: "+1 202-555-0132",
+      status: "Failed",
+      date: "08/10/2025",
+      type: "guardian",
+      message: "Notification failed to send. Please check your contact info.",
+    },
+    {
+      srNo: 4,
+      fullName: "Olivia Brown",
+      email: "olivia.brown@example.com",
+      number: "+1 202-555-0143",
+      status: "Sent",
+      date: "07/10/2025",
+      type: "patient",
+      message: "Your test results are now available in the patient portal.",
+    },
+    {
+      srNo: 5,
+      fullName: "William Jones",
+      email: "william.jones@example.com",
+      number: "+1 202-555-0154",
+      status: "Pending",
+      date: "06/10/2025",
+      type: "caretaker",
+      message: "Reminder: Please verify your working hours for this week.",
+    },
+    {
+      srNo: 6,
+      fullName: "Sophia Garcia",
+      email: "sophia.garcia@example.com",
+      number: "+1 202-555-0165",
+      status: "Sent",
+      date: "05/10/2025",
+      type: "guardian",
+      message: "Guardian verification completed successfully.",
+    },
+    {
+      srNo: 7,
+      fullName: "James Miller",
+      email: "james.miller@example.com",
+      number: "+1 202-555-0176",
+      status: "Sent",
+      date: "04/10/2025",
+      type: "patient",
+      message: "Your medication reminder for today has been sent.",
+    },
+    {
+      srNo: 8,
+      fullName: "Isabella Davis",
+      email: "isabella.davis@example.com",
+      number: "+1 202-555-0187",
+      status: "Failed",
+      date: "03/10/2025",
+      type: "caretaker",
+      message: "Failed to send notification due to network error.",
+    },
+    {
+      srNo: 9,
+      fullName: "Benjamin Martinez",
+      email: "benjamin.martinez@example.com",
+      number: "+1 202-555-0198",
+      status: "Sent",
+      date: "02/10/2025",
+      type: "guardian",
+      message: "New message from your assigned caretaker is available.",
+    },
+    {
+      srNo: 10,
+      fullName: "Mia Rodriguez",
+      email: "mia.rodriguez@example.com",
+      number: "+1 202-555-0209",
+      status: "Pending",
+      date: "01/10/2025",
+      type: "patient",
+      message: "Please confirm your upcoming appointment on Oct 15th.",
+    },
+    {
+      srNo: 11,
+      fullName: "Alexander Wilson",
+      email: "alexander.wilson@example.com",
+      number: "+1 202-555-0210",
+      status: "Sent",
+      date: "30/09/2025",
+      type: "caretaker",
+      message: "Your weekly schedule has been updated successfully.",
+    },
+    {
+      srNo: 12,
+      fullName: "Charlotte Anderson",
+      email: "charlotte.anderson@example.com",
+      number: "+1 202-555-0221",
+      status: "Sent",
+      date: "29/09/2025",
+      type: "guardian",
+      message: "Guardian account has been successfully linked with patient.",
+    },
   ];
 
   // 🔍 Search
@@ -77,7 +145,7 @@ export default function Notification() {
 
   // 🔢 Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // ✅ Filter + paginate
   const filteredInvoices = useMemo(() => {
@@ -103,16 +171,16 @@ export default function Notification() {
     <div className=" ">
       {/* Header with Title + dropdown + search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-800">Total Notifications </h1>
+        <h1 className="text-2xl font-bold text-gray-800">Notifications </h1>
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}
-          <select className="border rounded px-2 py-2 text-sm">
+          {/* <select className="border rounded px-2 py-2 text-sm">
             <option value="">All</option>
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
-          </select>
+          </select> */}
           <Input
             placeholder="Search by fullname, email"
             value={searchTerm}
@@ -138,22 +206,31 @@ export default function Notification() {
               <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Contact Number</TableHead>
-              <TableHead>Patients Name</TableHead>
+              <TableHead>Message</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Joined Date</TableHead>
+              <TableHead>Date
+                   <br />
+                (DD/MM/YYYY)
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedInvoices.length > 0 ? (
-              paginatedInvoices.map((inv) => (
-                <TableRow key={inv.srNo}>
-                  <TableCell className="font-medium">{inv.srNo}</TableCell>
-                  <TableCell>{inv.fullName}</TableCell>
-                  <TableCell>{inv.email}</TableCell>
-                  <TableCell>{inv.number}</TableCell>
-                  <TableCell>{inv.patientName}</TableCell>
-                  <TableCell>{inv.status}</TableCell>
-                  <TableCell className="text-right">{inv.date}</TableCell>
+              paginatedInvoices.map((item) => (
+                <TableRow key={item.srNo}>
+                  <TableCell className="font-medium">{item.srNo}</TableCell>
+                  <TableCell>{item.fullName}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.number}</TableCell>
+                  <TableCell
+                    className="w-64 overflow-hidden text-ellipsis break-words "
+                    title={item.message}
+                  >
+                    {item.message}
+                  </TableCell>
+
+                  <TableCell>{item.status}</TableCell>
+                  <TableCell>{item.date}</TableCell>
                 </TableRow>
               ))
             ) : (
@@ -180,7 +257,7 @@ export default function Notification() {
               setCurrentPage(1);
             }}
           >
-            {[ 10, 25, 50].map((n) => (
+            {[10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>

@@ -13,10 +13,20 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
   if (!isOpen || !patient) return null;
   console.log(patient);
   const guardian = patient.guardianId;
+  const caretaker = patient.caretakerId;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
       <Card className="w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
+        {patient.profilePhoto && (
+          <div className="flex justify-center mt-4">
+            <img
+              src={`${patient.profilePhoto}`}
+              alt="patient Profile"
+              className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+            />
+          </div>
+        )}
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
             Patient Details
@@ -68,7 +78,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
           <CardTitle className="text-xl font-semibold">
             Guardian Details
           </CardTitle>
-          <CardDescription>Patients linked with this guardian.</CardDescription>
+          <CardDescription>Guardian linked with this patient.</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
@@ -120,9 +130,9 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
         </CardContent>
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
-            Caretakers Details
+            Caregivers Details
           </CardTitle>
-          <CardDescription>Patients linked with this guardian.</CardDescription>
+          <CardDescription>Caregiver linked with this patient.</CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
@@ -157,7 +167,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
                 <span className="font-medium">Joined Date:</span>
                 <span>
                   {caretaker.createdAt
-                    ? new Date(guardian.createdAt).toLocaleDateString("en-GB", {
+                    ? new Date(caretaker.createdAt).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "numeric",
@@ -168,7 +178,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
             </div>
           ) : (
             <p className="text-gray-500 text-center">
-              No caretaker linked with this patient.
+              No Caregiver linked with this patient.
             </p>
           )}
         </CardContent>
