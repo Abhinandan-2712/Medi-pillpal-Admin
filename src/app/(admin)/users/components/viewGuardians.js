@@ -49,6 +49,14 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
             <span className="font-medium">Gender:</span>
             <span>{Guardian.gender || ""}</span>
           </div>
+          <div className="flex justify-between">
+            <span className="font-medium">Patient:</span>
+            <span>{Guardian.totalPatients || 0}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium">Caragiver:</span>
+            <span>{Guardian.totalCaratakers || 0}</span>
+          </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Contact Number:</span>

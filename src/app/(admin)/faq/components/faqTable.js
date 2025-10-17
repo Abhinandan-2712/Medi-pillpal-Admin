@@ -65,7 +65,7 @@ export default function FAQ() {
         headers: { token },
         signal,
       });
-      // console.log(res)
+      console.log(res)
       setFaqs(res.data.result.FAQ || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {
@@ -128,7 +128,6 @@ export default function FAQ() {
                 (DD/MM/YYYY)
               </TableHead>
               <TableHead>Action</TableHead>
-              
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -158,13 +157,13 @@ export default function FAQ() {
                     {faq.answer}
                   </TableCell>
                   <TableCell>{faq.status}</TableCell>
-                   <TableCell >
+                  <TableCell>
                     {new Date(faq.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
                       <button
-                      className="text-green-500"
+                        className="text-green-500"
                         onClick={() => {
                           setSelectedFaq(faq);
                           setEditModalOpen(true);
@@ -173,7 +172,7 @@ export default function FAQ() {
                         <FiEdit />
                       </button>
                       <button
-                      className=" text-red-500"
+                        className=" text-red-500"
                         onClick={() => {
                           setSelectedFaq(faq);
                           setDeleteModalOpen(true);
@@ -183,7 +182,6 @@ export default function FAQ() {
                       </button>
                     </div>
                   </TableCell>
-                 
                 </TableRow>
               ))
             ) : (
@@ -269,7 +267,7 @@ export default function FAQ() {
         onClose={() => setShowModal(false)}
         onAdded={() => {
           fetchFaqs(); // re-fetch FAQs from API
-          setCurrentPage(1); // optional: reset to first page
+          // setCurrentPage(1); // optional: reset to first page
         }}
       />
 

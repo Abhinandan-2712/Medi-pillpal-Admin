@@ -125,6 +125,8 @@ export default function User() {
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
               <TableHead>Age</TableHead>
+              <TableHead>Patients</TableHead>
+              <TableHead>Caragivers</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>
@@ -152,6 +154,8 @@ export default function User() {
                   <TableCell>{guardians.fullName}</TableCell>
                   <TableCell>{guardians.gender}</TableCell>
                   <TableCell>{guardians.age}</TableCell>
+                  <TableCell>{guardians.totalPatients || 0}</TableCell>
+                  <TableCell>{guardians.totalCaratakers || 0}</TableCell>
                   <TableCell>+{guardians.mobileNumber}</TableCell>
                   <TableCell>{guardians.status}</TableCell>
                   <TableCell>

@@ -21,7 +21,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
         {patient.profilePhoto && (
           <div className="flex justify-center mt-4">
             <img
-              src={`${patient.profilePhoto}`}
+              src={`https://medipillpall-c1pj.onrender.com${patient.profilePhoto}`}
               alt="patient Profile"
               className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
             />
@@ -46,6 +46,10 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
             <span className="font-medium">Gender:</span>
             <span>{patient.gender || " "}</span>
           </div>
+          <div className="flex justify-between">
+            <span className="font-medium">Age:</span>
+            <span>{patient.age || " "}</span>
+          </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Contact Number:</span>
@@ -57,13 +61,13 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
             <span>{patient.status || " "}</span>
           </div>
 
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span className="font-medium">Email:</span>
             <span>{patient.email || " "}</span>
-          </div>
+          </div> */}
 
           <div className="flex justify-between">
-            <span className="font-medium">Created At:</span>
+            <span className="font-medium">Joined Date:</span>
             <span>
               {new Date(patient.createdAt).toLocaleDateString("en-GB", {
                 day: "2-digit",
@@ -167,11 +171,14 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
                 <span className="font-medium">Joined Date:</span>
                 <span>
                   {caretaker.createdAt
-                    ? new Date(caretaker.createdAt).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
+                    ? new Date(caretaker.createdAt).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )
                     : " "}
                 </span>
               </div>

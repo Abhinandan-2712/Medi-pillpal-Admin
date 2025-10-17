@@ -124,10 +124,13 @@ export default function User() {
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
               <TableHead>Age</TableHead>
+              <TableHead>Guardians</TableHead>
+              <TableHead>Caragivers</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Joined Date
-                   <br />
+              <TableHead>
+                Joined Date
+                <br />
                 (DD/MM/YYYY)
               </TableHead>
               <TableHead>Action</TableHead>
@@ -149,7 +152,11 @@ export default function User() {
                   <TableCell>{patients.fullName}</TableCell>
                   <TableCell>{patients.gender}</TableCell>
                   <TableCell>{patients.age}</TableCell>
+                  <TableCell>{patients.totalGuardians || 0}</TableCell>
+                  <TableCell>{patients.totalCaragivers || 0}</TableCell>
                   <TableCell>+{patients.mobileNumber}</TableCell>
+                  <TableCell>{patients.status}</TableCell>
+
                   <TableCell>
                     {new Date(patients.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -157,7 +164,6 @@ export default function User() {
                       year: "numeric",
                     })}
                   </TableCell>
-                  <TableCell>{patients.status}</TableCell>
                   <TableCell>
                     <div className="flex gap-4">
                       <button
@@ -180,7 +186,7 @@ export default function User() {
                       </button> */}
 
                       <button
-                      className=" text-red-500"
+                        className=" text-red-500"
                         onClick={() => {
                           setSelectedPatients(patients);
                           setDeleteModalOpen(true);

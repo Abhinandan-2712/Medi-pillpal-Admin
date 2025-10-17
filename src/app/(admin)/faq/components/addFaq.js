@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -13,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import api from "@/lib/axiosClient"; 
+import api from "@/lib/axiosClient";
 
 export default function AddFaq({ isOpen, onClose, onAdded }) {
   const [question, setQuestion] = useState("");
@@ -24,7 +23,10 @@ export default function AddFaq({ isOpen, onClose, onAdded }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!question || !answer) return;
+    if (!question.trim() || !answer.trim()) {
+      toast.error("Question and Answer cannot be blank.",{id:"blank"});
+      return;
+    };
 
     setLoading(true);
     try {
@@ -65,7 +67,9 @@ export default function AddFaq({ isOpen, onClose, onAdded }) {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Add FAQ</CardTitle>
-          <CardDescription>Create a new frequently asked question.</CardDescription>
+          <CardDescription>
+            Create a new frequently asked question.
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">

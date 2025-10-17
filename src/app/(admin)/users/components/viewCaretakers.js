@@ -49,6 +49,10 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
             <span className="font-medium">Gender:</span>
             <span>{Caretakers.gender || " "}</span>
           </div>
+          <div className="flex justify-between">
+            <span className="font-medium">Patients:</span>
+            <span>{Caretakers.totalPatients || 0}</span>
+          </div>
 
           <div className="flex justify-between">
             <span className="font-medium">Contact Number:</span>
@@ -84,7 +88,9 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
           <CardTitle className="text-xl font-semibold">
             Patients Details
           </CardTitle>
-          <CardDescription>Patients linked with this Caregiver.</CardDescription>
+          <CardDescription>
+            Patients linked with this Caregiver.
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
@@ -149,11 +155,13 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
           <CardTitle className="text-xl font-semibold">
             Guardian Details
           </CardTitle>
-          <CardDescription>guardian linked with this Caregiver.</CardDescription>
+          <CardDescription>
+            guardian linked with this Caregiver.
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
-          {guardian===null ? (
+          {guardian === null ? (
             <div className="border p-3 rounded-lg bg-gray-50">
               <div className="flex justify-between">
                 <span className="font-medium">Full Name:</span>
