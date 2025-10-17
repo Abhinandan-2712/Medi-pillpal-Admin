@@ -17,7 +17,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 export default function NewNotification({ isOpen, onClose }) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [audience, setAudience] = useState("Guardians");
+  const [audience, setAudience] = useState("All");
 
   if (!isOpen) return null;   // 👉 isOpen false hone par kuch bhi render na ho
 
@@ -53,6 +53,7 @@ export default function NewNotification({ isOpen, onClose }) {
                 <SelectValue placeholder="Select Audience" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="select">Please Select</SelectItem>
                 <SelectItem value="All">All</SelectItem>
                 <SelectItem value="Guardians">Guardians</SelectItem>
                 <SelectItem value="Patients">Patients</SelectItem>

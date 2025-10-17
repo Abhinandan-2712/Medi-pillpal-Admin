@@ -124,7 +124,7 @@ export default function User() {
               <TableHead className="w-[120px]">Sr No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
-              <TableHead>Age</TableHead>
+              {/* <TableHead>Age</TableHead> */}
               <TableHead>Patients</TableHead>
 
               <TableHead>Contact Number</TableHead>
@@ -151,7 +151,7 @@ export default function User() {
                   </TableCell>
                   <TableCell>{caretakers.fullName}</TableCell>
                   <TableCell>{caretakers.gender}</TableCell>
-                  <TableCell>{caretakers.age|| 26}</TableCell>
+                  {/* <TableCell>{caretakers.age|| 26}</TableCell> */}
                   <TableCell>{caretakers.totalPatients ||0 }</TableCell>
                   <TableCell>+{caretakers.mobileNumber}</TableCell>
                   <TableCell>{caretakers.status}</TableCell>

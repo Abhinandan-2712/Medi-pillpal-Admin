@@ -22,95 +22,196 @@ export default function User() {
   const invoices = [
     {
       srNo: 1,
-      fullName: "Rahul Sharma",
-      email: "rahul.sharma@example.com",
-      number: "+91 9876543210",
-      patientName: "Ankit Sharma",
+      fullName: "John Smith",
+      email: "john.smith@example.com",
+      number: "+1 202-555-0110",
+      patientName: "Michael Smith",
       status: "Paid",
       date: "10/10/2025",
+      plan: "Basic",
     },
     {
       srNo: 2,
-      fullName: "Priya Verma",
-      email: "priya.verma@example.com",
-      number: "+91 9123456780",
-      patientName: "Rohit Verma",
+      fullName: "Emily Johnson",
+      email: "emily.johnson@example.com",
+      number: "+1 202-555-0121",
+      patientName: "Olivia Johnson",
       status: "Pending",
       date: "10/10/2025",
+      plan: "Premium",
     },
     {
       srNo: 3,
-      fullName: "Amit Singh",
-      email: "amit.singh@example.com",
-      number: "+91 9988776655",
-      patientName: "Neha Singh",
+      fullName: "Michael Williams",
+      email: "michael.williams@example.com",
+      number: "+1 202-555-0132",
+      patientName: "Sophia Williams",
       status: "Failed",
       date: "10/10/2025",
+      plan: "Basic",
     },
     {
       srNo: 4,
-      fullName: "Sneha Kapoor",
-      email: "sneha.kapoor@example.com",
-      number: "+91 9090909090",
-      patientName: "Karan Kapoor",
+      fullName: "Olivia Brown",
+      email: "olivia.brown@example.com",
+      number: "+1 202-555-0143",
+      patientName: "Liam Brown",
       status: "Paid",
       date: "10/10/2025",
+      plan: "Family",
     },
     {
       srNo: 5,
-      fullName: "Vikas Mehta",
-      email: "vikas.mehta@example.com",
-      number: "+91 9811111111",
-      patientName: "Riya Mehta",
+      fullName: "William Jones",
+      email: "william.jones@example.com",
+      number: "+1 202-555-0154",
+      patientName: "Emma Jones",
       status: "Pending",
       date: "10/10/2025",
+      plan: "Basic",
     },
     {
       srNo: 6,
-      fullName: "Anjali Desai",
-      email: "anjali.desai@example.com",
-      number: "+91 9876501234",
-      patientName: "Aarav Desai",
+      fullName: "Sophia Garcia",
+      email: "sophia.garcia@example.com",
+      number: "+1 202-555-0165",
+      patientName: "Noah Garcia",
       status: "Paid",
       date: "10/10/2025",
+      plan: "Premium",
     },
     {
       srNo: 7,
-      fullName: "Vikas Mehta",
-      email: "vikas.mehta@example.com",
-      number: "+91 9811111111",
-      patientName: "Riya Mehta",
+      fullName: "James Miller",
+      email: "james.miller@example.com",
+      number: "+1 202-555-0176",
+      patientName: "Ava Miller",
       status: "Pending",
       date: "10/10/2025",
+      plan: "Basic",
     },
     {
       srNo: 8,
-      fullName: "Anjali Desai",
-      email: "anjali.desai@example.com",
-      number: "+91 9876501234",
-      patientName: "Aarav Desai",
+      fullName: "Isabella Davis",
+      email: "isabella.davis@example.com",
+      number: "+1 202-555-0187",
+      patientName: "Elijah Davis",
       status: "Paid",
       date: "10/10/2025",
+      plan: "Premium",
     },
     {
       srNo: 9,
-      fullName: "Vikas Mehta",
-      email: "vikas.mehta@example.com",
-      number: "+91 9811111111",
-      patientName: "Riya Mehta",
+      fullName: "Benjamin Martinez",
+      email: "benjamin.martinez@example.com",
+      number: "+1 202-555-0198",
+      patientName: "Mia Martinez",
       status: "Pending",
       date: "10/10/2025",
+      plan: "Basic",
     },
     {
       srNo: 10,
-      fullName: "Anjali Desai",
-      email: "anjali.desai@example.com",
-      number: "+91 9876501234",
-      patientName: "Aarav Desai",
+      fullName: "Mia Rodriguez",
+      email: "mia.rodriguez@example.com",
+      number: "+1 202-555-0209",
+      patientName: "Lucas Rodriguez",
       status: "Paid",
       date: "10/10/2025",
+      plan: "Family",
+    },
+    {
+      srNo: 11,
+      fullName: "Alexander Wilson",
+      email: "alexander.wilson@example.com",
+      number: "+1 202-555-0211",
+      patientName: "Charlotte Wilson",
+      status: "Paid",
+      date: "09/10/2025",
+      plan: "Basic",
+    },
+    {
+      srNo: 12,
+      fullName: "Ella Thompson",
+      email: "ella.thompson@example.com",
+      number: "+1 202-555-0222",
+      patientName: "Henry Thompson",
+      status: "Pending",
+      date: "08/10/2025",
+      plan: "Premium",
+    },
+    {
+      srNo: 13,
+      fullName: "Daniel Anderson",
+      email: "daniel.anderson@example.com",
+      number: "+1 202-555-0233",
+      patientName: "Grace Anderson",
+      status: "Failed",
+      date: "07/10/2025",
+      plan: "Basic",
+    },
+    {
+      srNo: 14,
+      fullName: "Madison Thomas",
+      email: "madison.thomas@example.com",
+      number: "+1 202-555-0244",
+      patientName: "Ethan Thomas",
+      status: "Paid",
+      date: "06/10/2025",
+      plan: "Premium",
+    },
+    {
+      srNo: 15,
+      fullName: "Christopher Taylor",
+      email: "christopher.taylor@example.com",
+      number: "+1 202-555-0255",
+      patientName: "Avery Taylor",
+      status: "Pending",
+      date: "05/10/2025",
+      plan: "Basic",
+    },
+    {
+      srNo: 16,
+      fullName: "Abigail Moore",
+      email: "abigail.moore@example.com",
+      number: "+1 202-555-0266",
+      patientName: "Samuel Moore",
+      status: "Paid",
+      date: "04/10/2025",
+      plan: "Premium",
+    },
+    {
+      srNo: 17,
+      fullName: "Matthew Jackson",
+      email: "matthew.jackson@example.com",
+      number: "+1 202-555-0277",
+      patientName: "Sofia Jackson",
+      status: "Pending",
+      date: "03/10/2025",
+      plan: "Basic",
+    },
+    {
+      srNo: 18,
+      fullName: "Hannah White",
+      email: "hannah.white@example.com",
+      number: "+1 202-555-0288",
+      patientName: "Lucas White",
+      status: "Paid",
+      date: "02/10/2025",
+      plan: "Premium",
+    },
+    {
+      srNo: 19,
+      fullName: "Joshua Harris",
+      email: "joshua.harris@example.com",
+      number: "+1 202-555-0299",
+      patientName: "Lily Harris",
+      status: "Failed",
+      date: "01/10/2025",
+      plan: "Basic",
     },
   ];
+
   // 🔄 Export to Excel
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
@@ -219,27 +320,25 @@ export default function User() {
             <Button onClick={exportToPDF}>Export PDF</Button>
           </div>
           <div className="flex items-center gap-3">
-             {/* <select className="border rounded px-2 py-1 text-sm">
+            {/* <select className="border rounded px-2 py-1 text-sm">
             <option value="">All</option>
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
             <option value="Failed">Failed</option>
           </select> */}
 
-          <Input
-            placeholder="Search by name, email..."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="max-w-sm"
-          />
-
+            <Input
+              placeholder="Search by name, email..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="max-w-sm"
+            />
           </div>
 
           {/* Example filter dropdown */}
-         
         </div>
       </div>
 
@@ -248,13 +347,15 @@ export default function User() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[120px]">Sr No.</TableHead>
-              <TableHead>Full Name</TableHead>
+              <TableHead>Guardian Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Patients Name</TableHead>
+              <TableHead>Plan</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Payment Date
-                   <br />
+              <TableHead className="text-right">
+                Payment Date
+                <br />
                 (DD/MM/YYYY)
               </TableHead>
             </TableRow>
@@ -268,6 +369,7 @@ export default function User() {
                   <TableCell>{inv.email}</TableCell>
                   <TableCell>{inv.number}</TableCell>
                   <TableCell>{inv.patientName}</TableCell>
+                  <TableCell>{inv.plan}</TableCell>
                   <TableCell>{inv.status}</TableCell>
                   <TableCell className="text-right">{inv.date}</TableCell>
                 </TableRow>
@@ -296,7 +398,7 @@ export default function User() {
               setCurrentPage(1);
             }}
           >
-            {[ 10, 25, 50].map((n) => (
+            {[10, 25, 50].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>

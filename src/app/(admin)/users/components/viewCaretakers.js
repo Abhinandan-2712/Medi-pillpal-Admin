@@ -156,7 +156,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
             Guardian Details
           </CardTitle>
           <CardDescription>
-            guardian linked with this Caregiver.
+            Guardians linked with this Caregiver.
           </CardDescription>
         </CardHeader>
 
