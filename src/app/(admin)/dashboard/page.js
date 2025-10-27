@@ -245,6 +245,7 @@ export default function Dashboard() {
           isIncrease={stats?.revenueChange >= 0}
           para="Overall Revenue Generated Till Now"
           isCurrency
+          onClick={() => router.push("/transaction")}
         />
         <Card
           title="Total Transactions Processed"
@@ -252,6 +253,7 @@ export default function Dashboard() {
           percentage={stats?.transactionChange || 0}
           isIncrease={stats?.transactionChange >= 0}
           para="Successful Transactions Completed"
+          onClick={() => router.push("/transaction")}
         />
       </div>
 
