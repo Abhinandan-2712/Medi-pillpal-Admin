@@ -119,7 +119,7 @@ export default function FAQ() {
         <Table className="min-w-[700px] table-auto">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[60px]">Sr No</TableHead>
+              <TableHead className="w-[60px]">Sr. No.</TableHead>
               <TableHead>Question</TableHead>
               <TableHead>Answer</TableHead>
               <TableHead>Status</TableHead>

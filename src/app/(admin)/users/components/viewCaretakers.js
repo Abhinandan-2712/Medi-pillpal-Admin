@@ -8,6 +8,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { RxCross2 } from "react-icons/rx";
+
 
 export default function ViewPatients({ isOpen, onClose, Caretakers }) {
   if (!isOpen || !Caretakers) return null;
@@ -19,8 +21,14 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <Card className="w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
+      <Card className=" relative w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
         {/* --- Caretakers Details --- */}
+         <button
+                  onClick={onClose}
+                  className="absolute top-5 right-3 text-gray-600 hover:text-black transition-colors"
+                >
+                  <RxCross2 size={22} />
+                </button>
         {Caretakers.profilePhoto && (
           <div className="flex justify-center mt-4">
             <img

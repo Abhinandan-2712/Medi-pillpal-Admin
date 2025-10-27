@@ -17,7 +17,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 export default function NewNotification({ isOpen, onClose }) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [audience, setAudience] = useState("All");
+  const [audience, setAudience] = useState("select");
 
   if (!isOpen) return null;   // 👉 isOpen false hone par kuch bhi render na ho
 

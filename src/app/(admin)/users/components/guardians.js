@@ -121,7 +121,7 @@ export default function User() {
         <Table className="min-w-[900px] table-auto ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Sr No.</TableHead>
+              <TableHead className="w-[120px]">Sr. No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Gender</TableHead>
               {/* <TableHead>Age</TableHead> */}

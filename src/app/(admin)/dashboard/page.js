@@ -219,7 +219,7 @@ export default function Dashboard() {
           amount={cardData?.cards[1].amount || 0}
           percentage={cardData?.cards[1].percentage || 0}
           isIncrease={cardData?.cards[1].isIncrease}
-          para="Parents Who Have Visited So Far"
+          para="Guardians Registered So Far"
           onClick={() => router.push("/users?tab=Guardians")}
         />
         <Card
@@ -227,7 +227,7 @@ export default function Dashboard() {
           amount={cardData?.cards[0].amount || 0}
           percentage={cardData?.cards[0].percentage || 0}
           isIncrease={cardData?.cards[0].isIncrease|| false}
-          para="Patients Registered Till Date"
+          para="Patients Registered So Far"
           onClick={() => router.push("/users?tab=Patients")}
         />
         <Card
@@ -235,7 +235,7 @@ export default function Dashboard() {
           amount={cardData?.cards[2].amount || 0}
           percentage={cardData?.cards[2].percentage || 0}
           isIncrease={cardData?.cards[2].isIncrease}
-          para="Active Caregivers So Far"
+          para="Caregivers Registered So Far"
           onClick={() => router.push("/users?tab=Caregivers")}
         />
         <Card
@@ -248,7 +248,7 @@ export default function Dashboard() {
         />
         <Card
           title="Total Transactions Processed"
-          amount={stats?.totalTransactions || "296"}
+          amount={stats?.totalTransactions || "19"}
           percentage={stats?.transactionChange || 0}
           isIncrease={stats?.transactionChange >= 0}
           para="Successful Transactions Completed"

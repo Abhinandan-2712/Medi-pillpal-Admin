@@ -8,6 +8,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { RxCross2 } from "react-icons/rx";
 
 export default function ViewPatients({ isOpen, onClose, Guardian }) {
   if (!isOpen || !Guardian) return null;
@@ -16,11 +17,17 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
   const patients = Guardian.patients || [];
   const caretakers = Guardian.caretakers || [];
 
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <Card className="w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
+      <Card className="relative w-full max-w-xl rounded-md shadow-lg max-h-[90vh] overflow-y-auto">
         {/* --- Guardian Details --- */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-3 text-gray-600 hover:text-black transition-colors"
+        >
+          <RxCross2 size={22} />
+        </button>
+
         {Guardian.profilePhoto && (
           <div className="flex justify-center mt-4">
             <img
@@ -156,7 +163,9 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
           <CardTitle className="text-xl font-semibold">
             Caregivers Details
           </CardTitle>
-          <CardDescription>Caregivers linked with this guardian.</CardDescription>
+          <CardDescription>
+            Caregivers linked with this guardian.
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">

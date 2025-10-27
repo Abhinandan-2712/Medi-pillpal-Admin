@@ -214,71 +214,228 @@ export default function User() {
 
   // 🔄 Export to Excel
   const exportToExcel = async () => {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Transactions");
+    try {
+      // Show loading state (you can add a toast/notification here)
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Transactions");
 
-    // Header
-    worksheet.addRow([
-      "Sr No",
-      "Full Name",
-      "Email",
-      "Number",
-      "Patient Name",
-      "Status",
-      "Date",
-    ]);
+      // Style the header row
+      const headerRow = worksheet.addRow([
+        "Sr. No.",
+        "Guardian Name",
+        "Guardian Email",
+        "Contact Number",
+        "Patient Name",
+        "Plan",
+        "Status",
+        "Payment Date",
+      ]);
 
-    // Data rows
-    invoices.forEach((inv) => {
-      worksheet.addRow([
+      // Apply header styling
+      headerRow.font = { bold: true, size: 12, color: { argb: "FFFFFFFF" } };
+      headerRow.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FF4472C4" },
+      };
+      headerRow.alignment = { vertical: "middle", horizontal: "center" };
+      headerRow.height = 20;
+
+      // Add data rows
+      invoices.forEach((inv, index) => {
+        const row = worksheet.addRow([
+          inv.srNo,
+          inv.fullName,
+          inv.email,
+          inv.number,
+          inv.patientName,
+          inv.plan,
+          inv.status,
+          inv.date,
+        ]);
+
+        // Alternate row colors
+        if (index % 2 === 0) {
+          row.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "FFF2F2F2" },
+          };
+        }
+
+        // Status color coding
+        const statusCell = row.getCell(7);
+        if (
+          inv.status.toLowerCase() === "paid" ||
+          inv.status.toLowerCase() === "completed"
+        ) {
+          statusCell.font = { color: { argb: "FF00B050" }, bold: true };
+        } else if (inv.status.toLowerCase() === "pending") {
+          statusCell.font = { color: { argb: "FFFFC000" }, bold: true };
+        } else if (
+          inv.status.toLowerCase() === "failed" ||
+          inv.status.toLowerCase() === "cancelled"
+        ) {
+          statusCell.font = { color: { argb: "FFFF0000" }, bold: true };
+        }
+      });
+
+      // Auto-fit columns
+      worksheet.columns.forEach((column) => {
+        let maxLength = 10;
+        column.eachCell({ includeEmpty: true }, (cell) => {
+          const columnLength = cell.value ? cell.value.toString().length : 10;
+          if (columnLength > maxLength) {
+            maxLength = columnLength;
+          }
+        });
+        column.width = maxLength < 15 ? 15 : maxLength + 2;
+      });
+
+      // Add borders to all cells
+      worksheet.eachRow((row) => {
+        row.eachCell((cell) => {
+          cell.border = {
+            top: { style: "thin", color: { argb: "FFD0D0D0" } },
+            left: { style: "thin", color: { argb: "FFD0D0D0" } },
+            bottom: { style: "thin", color: { argb: "FFD0D0D0" } },
+            right: { style: "thin", color: { argb: "FFD0D0D0" } },
+          };
+        });
+      });
+
+      // Generate filename with timestamp
+      const timestamp = new Date().toISOString().split("T")[0];
+      const filename = `transactions_${timestamp}.xlsx`;
+
+      // Generate & download file
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAs(new Blob([buffer]), filename);
+
+      // Success notification (add your notification system here)
+      console.log("Excel exported successfully!");
+      return true;
+    } catch (error) {
+      console.error("Error exporting to Excel:", error);
+      // Error notification (add your notification system here)
+      return false;
+    }
+  };
+
+  // 🔄 Export to PDF
+  const exportToPDF = () => {
+    try {
+      const doc = new jsPDF({ orientation: "landscape" }); // Landscape for more columns
+
+      // Title with styling
+      doc.setFontSize(18);
+      doc.setTextColor(40, 40, 40);
+      doc.text("Medipill Pal Transaction Report", 14, 15);
+
+      // Add metadata
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 22);
+      doc.text(`Total Records: ${invoices.length}`, 14, 27);
+
+      const tableData = invoices.map((inv) => [
         inv.srNo,
         inv.fullName,
         inv.email,
         inv.number,
         inv.patientName,
+        inv.plan,
         inv.status,
         inv.date,
       ]);
-    });
 
-    // Generate & download file
-    const buffer = await workbook.xlsx.writeBuffer();
-    saveAs(new Blob([buffer]), "transactions.xlsx");
-  };
-
-  // 🔄 Export to PDF
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Transaction Report", 14, 15);
-
-    const tableData = invoices.map((inv) => [
-      inv.srNo,
-      inv.fullName,
-      inv.email,
-      inv.number,
-      inv.patientName,
-      inv.status,
-      inv.date,
-    ]);
-
-    autoTable(doc, {
-      // ✅ correct usage
-      head: [
-        [
-          "Sr No",
-          "Full Name",
-          "Email",
-          "Number",
-          "Patient Name",
-          "Status",
-          "Date",
+      autoTable(doc, {
+        head: [
+          [
+            "Sr. No.",
+            "Guardian Name",
+            "Guardian Email",
+            "Contact Number",
+            "Patient Name",
+            "Plan",
+            "Status",
+            "Payment Date",
+          ],
         ],
-      ],
-      body: tableData,
-      startY: 20,
-    });
+        body: tableData,
+        startY: 32,
+        theme: "grid",
+        styles: {
+          fontSize: 9,
+          cellPadding: 3,
+          overflow: "linebreak",
+        },
+        headStyles: {
+          fillColor: [68, 114, 196],
+          textColor: 255,
+          fontStyle: "bold",
+          halign: "center",
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245],
+        },
+        columnStyles: {
+          0: { cellWidth: 20, halign: "center" },
+          1: { cellWidth: 35, halign: "center" },
+          2: { cellWidth: 55, halign: "center" },
+          3: { cellWidth: 40, halign: "center" },
+          4: { cellWidth: 35, halign: "center" },
+          5: { cellWidth: 30, halign: "center" },
+          6: { cellWidth: 25, halign: "center" },
+          7: { cellWidth: 25, halign: "center" },
+        },
+        didParseCell: function (data) {
+          // Color code status column
+          if (data.column.index === 6 && data.section === "body") {
+            const status = data.cell.raw.toString().toLowerCase();
+            if (status === "paid" || status === "completed") {
+              data.cell.styles.textColor = [0, 176, 80];
+              data.cell.styles.fontStyle = "bold";
+            } else if (status === "pending") {
+              data.cell.styles.textColor = [255, 192, 0];
+              data.cell.styles.fontStyle = "bold";
+            } else if (status === "failed" || status === "cancelled") {
+              data.cell.styles.textColor = [255, 0, 0];
+              data.cell.styles.fontStyle = "bold";
+            }
+          }
+        },
+        margin: { top: 32 },
+      });
 
-    doc.save("transactions.pdf");
+      // Footer with page numbers
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(
+          `Page ${i} of ${pageCount}`,
+          doc.internal.pageSize.getWidth() / 2,
+          doc.internal.pageSize.getHeight() - 10,
+          { align: "center" }
+        );
+      }
+
+      // Generate filename with timestamp
+      const timestamp = new Date().toISOString().split("T")[0];
+      const filename = `transactions_${timestamp}.pdf`;
+
+      doc.save(filename);
+
+      // Success notification
+      console.log("PDF exported successfully!");
+      return true;
+    } catch (error) {
+      console.error("Error exporting to PDF:", error);
+      // Error notification
+      return false;
+    }
   };
 
   // 🔍 Search
@@ -291,7 +448,7 @@ export default function User() {
   // ✅ Filter + paginate
   const filteredInvoices = useMemo(() => {
     return invoices.filter((inv) =>
-      `${inv.id} ${inv.status} ${inv.method}`
+      `${inv.fullName} ${inv.email} ${inv.number} ${inv.patientName} ${inv.status}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
     );
@@ -346,9 +503,9 @@ export default function User() {
         <Table className="min-w-[900px] table-auto ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Sr No.</TableHead>
+              <TableHead className="w-[120px]">Sr. No.</TableHead>
               <TableHead>Guardian Name</TableHead>
-              <TableHead>Email</TableHead>
+              <TableHead>Guardian Email</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Patients Name</TableHead>
               <TableHead>Plan</TableHead>
@@ -370,7 +527,21 @@ export default function User() {
                   <TableCell>{inv.number}</TableCell>
                   <TableCell>{inv.patientName}</TableCell>
                   <TableCell>{inv.plan}</TableCell>
-                  <TableCell>{inv.status}</TableCell>
+                  <TableCell>
+                    <span
+                      className={`font-medium ${
+                        inv.status === "Paid"
+                          ? "text-green-500"
+                          : inv.status === "Pending"
+                          ? "text-yellow-500"
+                          : inv.status === "Failed"
+                          ? "text-red-500"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {inv.status}
+                    </span>
+                  </TableCell>
                   <TableCell className="text-right">{inv.date}</TableCell>
                 </TableRow>
               ))

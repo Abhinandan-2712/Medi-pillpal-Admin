@@ -213,11 +213,11 @@ const invoices = [
         <Table className="min-w-[900px] table-auto ">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Sr No.</TableHead>
+              <TableHead className="w-[120px]">Sr. No.</TableHead>
               <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Contact Number</TableHead>
-              <TableHead>Receipt type</TableHead>
+              <TableHead>Recipient type</TableHead>
 
               <TableHead>Title</TableHead>
               <TableHead>Message</TableHead>
