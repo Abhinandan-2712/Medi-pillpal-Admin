@@ -507,7 +507,7 @@ export default function User() {
               <TableHead>Guardian Name</TableHead>
               <TableHead>Guardian Email</TableHead>
               <TableHead>Contact Number</TableHead>
-              <TableHead>Patients Name</TableHead>
+              <TableHead>Patient Name</TableHead>
               <TableHead>Plan</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">
