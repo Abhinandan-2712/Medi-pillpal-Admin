@@ -16,7 +16,9 @@ import { FiEdit } from "react-icons/fi";
 import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
 import ViewPatients from "./viewGuardians";
-import { MdBlockFlipped } from "react-icons/md";
+import { MdBlock } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
+import BlockUserModal from "./BlockGuardian";
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +34,8 @@ export default function User() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserType, setSelectedUserType] = useState("Guardian");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -51,7 +55,7 @@ export default function User() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-    toast.dismiss();
+    // toast.dismiss();
 
     try {
       const token = localStorage.getItem("token");
@@ -157,7 +161,15 @@ export default function User() {
                   <TableCell>{guardians.totalPatients || 0}</TableCell>
                   <TableCell>{guardians.totalCaratakers || 0}</TableCell>
                   <TableCell>+{guardians.mobileNumber}</TableCell>
-                  <TableCell>{guardians.status}</TableCell>
+                  <TableCell
+                    className={`${
+                      guardians.status === "Active"
+                        ? "text-green-600"
+                        : "text-red-500 "
+                    }`}
+                  >
+                    {guardians.status}
+                  </TableCell>
                   <TableCell>
                     {new Date(guardians.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit",
@@ -168,7 +180,7 @@ export default function User() {
                   <TableCell>
                     <div className="flex gap-4">
                       <button
-                       className=" text-green-500"
+                        className=" text-green-500"
                         onClick={() => {
                           setSelectedGuardians(guardians);
                           setShowModal(true);
@@ -176,22 +188,24 @@ export default function User() {
                       >
                         <FiEye />
                       </button>
-                      {/* <button
-                        onClick={() => {
-                          setSelectedGuardians(guardians);
-                          setEditModalOpen(true);
-                        }}
-                      >
-                        <FiEdit />
-                      </button> */}
+
                       <button
-                      className=" text-red-500"
+                        className={`${
+                          guardians.status === "Active"
+                            ? "text-red-500"
+                            : "text-red-600 text-base"
+                        }`}
                         onClick={() => {
                           setSelectedGuardians(guardians);
-                          setDeleteModalOpen(true);
+                          setSelectedUserType("Guardian");
+                          setIsModalOpen(true);
                         }}
                       >
-                        <MdBlockFlipped />
+                        {guardians.status === "Active" ? (
+                          <MdBlock /> // Block icon (red)
+                        ) : (
+                          <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
+                        )}
                       </button>
                     </div>
                   </TableCell>
@@ -279,6 +293,13 @@ export default function User() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         Guardian={selectedGuardians}
+      />
+      <BlockUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        Guardian={selectedGuardians}
+        userType={selectedUserType}
+        onUpdated={fetchGuardians}
       />
     </div>
   );

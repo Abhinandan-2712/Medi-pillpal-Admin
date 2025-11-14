@@ -17,6 +17,11 @@ import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
 import ViewCaretakers from "./viewCaretakers";
 import { MdBlockFlipped } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
+import BlockUserModal from "./BlockCaretakers";
+import DeleteCaretakerModal from "./Delete";
+import { MdBlock } from "react-icons/md";
+
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +37,8 @@ export default function User() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserType, setSelectedUserType] = useState("Caretakers");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -51,7 +58,7 @@ export default function User() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-    toast.dismiss();
+    // toast.dismiss();
 
     try {
       const token = localStorage.getItem("token");
@@ -129,8 +136,9 @@ export default function User() {
 
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Joined Date
-                   <br />
+              <TableHead>
+                Joined Date
+                <br />
                 (DD/MM/YYYY)
               </TableHead>
               <TableHead>Action</TableHead>
@@ -152,9 +160,17 @@ export default function User() {
                   <TableCell>{caretakers.fullName}</TableCell>
                   <TableCell>{caretakers.gender}</TableCell>
                   {/* <TableCell>{caretakers.age|| 26}</TableCell> */}
-                  <TableCell>{caretakers.totalPatients ||0 }</TableCell>
+                  <TableCell>{caretakers.totalPatients || 0}</TableCell>
                   <TableCell>+{caretakers.mobileNumber}</TableCell>
-                  <TableCell>{caretakers.status}</TableCell>
+                  <TableCell
+                    className={`${
+                      caretakers.status === "Active"
+                        ? "text-green-600"
+                        : "text-red-500 "
+                    }`}
+                  >
+                    {caretakers.status}
+                  </TableCell>
                   <TableCell>
                     {new Date(caretakers.createdAt).toLocaleDateString(
                       "en-GB",
@@ -168,7 +184,7 @@ export default function User() {
                   <TableCell>
                     <div className="flex gap-4">
                       <button
-                       className=" text-green-500"
+                        className=" text-green-500"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
                           setShowModal(true);
@@ -185,14 +201,32 @@ export default function User() {
                         <FiEdit />
                       </button> */}
                       <button
-                      className=" text-red-500"
+                        className={`${
+                          caretakers.status === "Active"
+                            ? "text-red-500"
+                            : "text-red-600 text-base"
+                        }`}
+                        onClick={() => {
+                          setSelectedCaretakers(caretakers);
+                          setSelectedUserType("caretakers");
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        {caretakers.status === "Active" ? (
+                          <MdBlock /> // Block icon (red)
+                        ) : (
+                          <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
+                        )}
+                      </button>
+                      {/* <button
+                        className="text-red-600"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
                           setDeleteModalOpen(true);
                         }}
                       >
-                        <MdBlockFlipped />
-                      </button>
+                        <MdOutlineDeleteOutline size={20} />
+                      </button> */}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -279,6 +313,21 @@ export default function User() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         Caretakers={selectedCaretakers}
+      />
+      <BlockUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        caretakers={selectedCaretakers}
+        userType={selectedUserType}
+        onUpdated={fetchCaretakers}
+      />
+
+      <DeleteCaretakerModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        caretakers={selectedCaretakers}
+        userType="caretaker"
+        onUpdated={fetchCaretakers}
       />
     </div>
   );

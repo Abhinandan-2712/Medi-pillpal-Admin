@@ -17,6 +17,9 @@ import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
 import ViewPatients from "./viewPatients";
 import { MdBlockFlipped } from "react-icons/md";
+import BlockUserModal from "./BlockPatients";
+import { CgUnblock } from "react-icons/cg";
+import { MdBlock } from "react-icons/md";
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +35,8 @@ export default function User() {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserType, setSelectedUserType] = useState("Patients");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -50,7 +55,7 @@ export default function User() {
     setLoading(true);
     const controller = new AbortController();
     const signal = controller.signal;
-    toast.dismiss();
+    // toast.dismiss();
 
     try {
       const token = localStorage.getItem("token");
@@ -155,7 +160,15 @@ export default function User() {
                   <TableCell>{patients.totalGuardians || 0}</TableCell>
                   <TableCell>{patients.totalCaragivers || 0}</TableCell>
                   <TableCell>+{patients.mobileNumber}</TableCell>
-                  <TableCell>{patients.status}</TableCell>
+                  <TableCell
+                    className={`${
+                      patients.status === "Active"
+                        ? "text-green-600"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {patients.status}
+                  </TableCell>
 
                   <TableCell>
                     {new Date(patients.createdAt).toLocaleDateString("en-GB", {
@@ -186,13 +199,22 @@ export default function User() {
                       </button> */}
 
                       <button
-                        className=" text-red-500"
+                        className={`${
+                          patients.status === "Active"
+                            ? "text-red-500"
+                            : "text-red-600 text-base"
+                        }`}
                         onClick={() => {
                           setSelectedPatients(patients);
-                          setDeleteModalOpen(true);
+                          setSelectedUserType("Patients");
+                          setIsModalOpen(true);
                         }}
                       >
-                        <MdBlockFlipped />
+                        {patients.status === "Active" ? (
+                          <MdBlock /> // Block icon (red)
+                        ) : (
+                          <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
+                        )}
                       </button>
                     </div>
                   </TableCell>
@@ -280,6 +302,13 @@ export default function User() {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         patient={selectedPatients}
+      />
+      <BlockUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        patients={selectedPatients}
+        userType={selectedUserType}
+        onUpdated={fetchPatients}
       />
     </div>
   );
