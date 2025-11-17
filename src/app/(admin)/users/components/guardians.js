@@ -19,6 +19,8 @@ import ViewPatients from "./viewGuardians";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import BlockUserModal from "./BlockGuardian";
+import DeleteCaretakerModal from "./Delete";
+
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -207,6 +209,15 @@ export default function User() {
                           <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
                         )}
                       </button>
+                       <button
+                        className="text-red-600"
+                        onClick={() => {
+                          setSelectedGuardians(guardians);
+                          setDeleteModalOpen(true);
+                        }}
+                      >
+                        <MdOutlineDeleteOutline size={20} />
+                      </button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -301,6 +312,13 @@ export default function User() {
         userType={selectedUserType}
         onUpdated={fetchGuardians}
       />
+      <DeleteCaretakerModal
+              isOpen={deleteModalOpen}
+              onClose={() => setDeleteModalOpen(false)}
+              caretakers={selectedGuardians}
+              userType="Guardian"
+              onUpdated={fetchGuardians}
+            />
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default function DeleteCaretakerModal({
   isOpen,
   onClose,
   caretakers,
-  userType ,
+  userType,
   onUpdated,
 }) {
   const [loading, setLoading] = useState(false);
@@ -27,17 +27,30 @@ export default function DeleteCaretakerModal({
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
+      let apiUrl = "";
 
+      if (userType === "Guardian") {
+        apiUrl = `/api/guardian/delete-guardian-byadmin/${caretakers._id}`;
+      } else if (userType === "Patient") {
+        apiUrl = `/api/patient/delete-patient-byadmin/${caretakers._id}`;
+      } else if (userType === "Caretaker" || userType === "Caregivers") {
+        apiUrl = `/api/caretaker/delete-caretaker-byadmin/${caretakers._id}`;
+      } else {
+        toast.error("Invalid user type!");
+        return;
+      }
+      // console.log("fghdrg",caretakers)
       const response = await api.post(
-        `/api/caretaker/delete-caretaker-byadmin/${caretakers._id}`,
+        apiUrl,
+        {},
         { headers: { token } }
       );
-      console.log(response)
+      console.log(response);
 
       if (response?.data?.success) {
         toast.success(`${userType} deleted successfully!`);
-        // onClose?.();
-        // onUpdated?.();
+        onClose?.();
+        onUpdated?.();
       } else {
         toast.error(response?.data?.message || "Delete failed.");
       }
@@ -55,8 +68,8 @@ export default function DeleteCaretakerModal({
         <CardHeader>
           <CardTitle>Delete {userType}</CardTitle>
           <CardDescription>
-            Are you sure you want to permanently delete this {userType}?
-            This action cannot be undone.
+            Are you sure you want to permanently delete this {userType}? This
+            action cannot be undone.
           </CardDescription>
         </CardHeader>
 

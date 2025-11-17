@@ -218,7 +218,7 @@ export default function User() {
                           <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
                         )}
                       </button>
-                      {/* <button
+                      <button
                         className="text-red-600"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
@@ -226,7 +226,7 @@ export default function User() {
                         }}
                       >
                         <MdOutlineDeleteOutline size={20} />
-                      </button> */}
+                      </button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -326,7 +326,7 @@ export default function User() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         caretakers={selectedCaretakers}
-        userType="caretaker"
+        userType="Caretaker"
         onUpdated={fetchCaretakers}
       />
     </div>

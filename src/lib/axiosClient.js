@@ -32,7 +32,7 @@ api.interceptors.response.use(
   (response) => {
     // Check if API returned an error inside a 200 response
     if (
-      response.data?.statusCode === 400 ||
+      // response.data?.statusCode === 400 ||
       response.data?.statusCode === 401
     ) {
       toast.error("Session expired. Please log in again.");
@@ -45,7 +45,7 @@ api.interceptors.response.use(
   (error) => {
     // Handle actual HTTP errors (4xx/5xx)
     if (
-      error.response?.data?.statusCode === 401 ||
+      // error.response?.data?.statusCode === 401 ||
       error.response?.data?.statusCode === 400
     ) {
       toast.error("Session expired. Please log in again.");

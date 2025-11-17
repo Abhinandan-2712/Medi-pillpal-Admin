@@ -20,6 +20,8 @@ import { MdBlockFlipped } from "react-icons/md";
 import BlockUserModal from "./BlockPatients";
 import { CgUnblock } from "react-icons/cg";
 import { MdBlock } from "react-icons/md";
+import DeleteCaretakerModal from "./Delete";
+
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -216,6 +218,15 @@ export default function User() {
                           <CgUnblock /> // Unblock icon (green) → replace with your preferred icon
                         )}
                       </button>
+                      <button
+                        className="text-red-600"
+                        onClick={() => {
+                          setSelectedPatients(patients);
+                          setDeleteModalOpen(true);
+                        }}
+                      >
+                        <MdOutlineDeleteOutline size={20} />
+                      </button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -308,6 +319,13 @@ export default function User() {
         onClose={() => setIsModalOpen(false)}
         patients={selectedPatients}
         userType={selectedUserType}
+        onUpdated={fetchPatients}
+      />
+      <DeleteCaretakerModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        caretakers={selectedPatients}
+        userType="Patient"
         onUpdated={fetchPatients}
       />
     </div>
