@@ -20,6 +20,7 @@ import { MdBlockFlipped } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import BlockUserModal from "./BlockCaretakers";
 import DeleteCaretakerModal from "./Delete";
+import EditModal from "./EditModal";
 import { MdBlock } from "react-icons/md";
 
 
@@ -31,7 +32,7 @@ export default function User() {
 
   const [caretakers, setCaretakers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,6 +69,7 @@ export default function User() {
           page: currentPage,
           search: debouncedSearch,
           status,
+          statusFilter,
         },
         headers: { token },
         signal,
@@ -91,7 +93,7 @@ export default function User() {
   // Fetch whenever page, rowsPerPage, debouncedSearch, or status changes
   useEffect(() => {
     fetchCaretakers();
-  }, [rowsPerPage, currentPage, debouncedSearch, status]);
+  }, [rowsPerPage, currentPage, debouncedSearch, statusFilter]);
 
   const goToPage = (p) => setCurrentPage(p);
   const nextPage = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
@@ -105,12 +107,15 @@ export default function User() {
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}
-          {/* <select className="border rounded px-2 py-1 text-sm">
-            <option value="">All</option>
-            <option value="Paid">Paid</option>
-            <option value="Pending">Pending</option>
-            <option value="Failed">Failed</option>
-          </select> */}
+          <select className="border rounded px-2 py-[6px] text-sm" value={statusFilter}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              setCurrentPage(1);
+            }}>
+             <option value="All">All</option>
+            <option value="Active">Active</option>
+            <option value="Blocked">Blocked</option>
+          </select>
 
           <Input
             placeholder="Search by fullname, gender..."
@@ -183,6 +188,15 @@ export default function User() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
+                        <button
+                        className="text-blue-600"
+                        onClick={() => {
+                          setSelectedCaretakers(caretakers);
+                          setEditModalOpen(true);
+                        }}
+                      >
+                        <FiEdit />
+                      </button>
                       <button
                         className=" text-green-500"
                         onClick={() => {
@@ -326,9 +340,16 @@ export default function User() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         caretakers={selectedCaretakers}
-        userType="Caretaker"
+        userType="Caregivers"
         onUpdated={fetchCaretakers}
       />
+      <EditModal
+              isOpen={editModalOpen}
+              onClose={() => setEditModalOpen(false)}
+              caretakers={selectedCaretakers}
+              userType="Caregivers"
+              onUpdated={fetchCaretakers}
+            />
     </div>
   );
 }
