@@ -35,7 +35,7 @@ export default function DeleteCaretakerModal({
         apiUrl = `/api/guardian/delete-guardian-byadmin/${caretakers._id}`;
       } else if (userType === "Patient") {
         apiUrl = `/api/patient/delete-patient-byadmin/${caretakers._id}`;
-      } else if (userType === "Caretaker" || userType === "Caregivers") {
+      } else if (userType === "Caretaker" || userType === "Caregiver") {
         apiUrl = `/api/caretaker/delete-caretaker-byadmin/${caretakers._id}`;
       } else {
         toast.error("Invalid user type!");

@@ -17,7 +17,7 @@ export default function BlockUserModal({
   isOpen,
   onClose,
   caretakers,
-  userType = "caretakers",
+  userType ,
   onUpdated,
 }) {
   const [loading, setLoading] = useState(false);

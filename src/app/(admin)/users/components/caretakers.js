@@ -23,7 +23,6 @@ import DeleteCaretakerModal from "./Delete";
 import EditModal from "./EditModal";
 import { MdBlock } from "react-icons/md";
 
-
 export default function User() {
   const [showModal, setShowModal] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -39,7 +38,7 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserType, setSelectedUserType] = useState("Caregivers");
+  const [selectedUserType, setSelectedUserType] = useState("Caregiver");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -107,12 +106,15 @@ export default function User() {
 
         <div className="flex items-center gap-3">
           {/* Example filter dropdown */}
-          <select className="border rounded px-2 py-[6px] text-sm" value={statusFilter}
+          <select
+            className="border rounded px-2 py-[6px] text-sm"
+            value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
               setCurrentPage(1);
-            }}>
-             <option value="All">All</option>
+            }}
+          >
+            <option value="All">All</option>
             <option value="Active">Active</option>
             <option value="Blocked">Blocked</option>
           </select>
@@ -188,7 +190,7 @@ export default function User() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-4">
-                        <button
+                      <button
                         className="text-blue-600"
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
@@ -222,7 +224,7 @@ export default function User() {
                         }`}
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
-                          setSelectedUserType("Caregivers");
+                          setSelectedUserType("Caregiver");
                           setIsModalOpen(true);
                         }}
                       >
@@ -340,16 +342,16 @@ export default function User() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         caretakers={selectedCaretakers}
-        userType="Caregivers"
+        userType="Caregiver"
         onUpdated={fetchCaretakers}
       />
       <EditModal
-              isOpen={editModalOpen}
-              onClose={() => setEditModalOpen(false)}
-              caretakers={selectedCaretakers}
-              userType="Caregivers"
-              onUpdated={fetchCaretakers}
-            />
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        caretakers={selectedCaretakers}
+        userType="Caregiver"
+        onUpdated={fetchCaretakers}
+      />
     </div>
   );
 }
