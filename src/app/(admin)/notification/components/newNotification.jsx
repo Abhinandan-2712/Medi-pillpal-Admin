@@ -24,7 +24,6 @@ export default function NewNotification({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ title, message, audience });
-    
     onClose?.(); // ✅ parent me showModal ko false karega
   };
 
