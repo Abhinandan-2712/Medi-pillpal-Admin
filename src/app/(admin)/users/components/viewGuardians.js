@@ -61,7 +61,7 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
             <span>{Guardian.totalPatients || 0}</span>
           </div>
           <div className="flex justify-between">
-            <span className="font-medium">Caragiver:</span>
+            <span className="font-medium">Caregiver:</span>
             <span>{Guardian.totalCaratakers || 0}</span>
           </div>
 
