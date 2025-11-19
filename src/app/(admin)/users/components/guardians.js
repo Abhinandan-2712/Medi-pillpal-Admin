@@ -138,7 +138,7 @@ export default function User() {
               <TableHead>Gender</TableHead>
               {/* <TableHead>Age</TableHead> */}
               <TableHead>Patients</TableHead>
-              <TableHead>Caragivers</TableHead>
+              <TableHead>Caregivers</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>

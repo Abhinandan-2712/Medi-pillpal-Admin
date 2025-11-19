@@ -38,7 +38,7 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserType, setSelectedUserType] = useState("Patients");
+  const [selectedUserType, setSelectedUserType] = useState("Patient");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -139,7 +139,7 @@ export default function User() {
               <TableHead>Gender</TableHead>
               <TableHead>Age</TableHead>
               <TableHead>Guardians</TableHead>
-              <TableHead>Caragivers</TableHead>
+              <TableHead>Caregivers</TableHead>
               <TableHead>Contact Number</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>
@@ -224,7 +224,7 @@ export default function User() {
                         }`}
                         onClick={() => {
                           setSelectedPatients(patients);
-                          setSelectedUserType("Patients");
+                          setSelectedUserType("Patient");
                           setIsModalOpen(true);
                         }}
                       >

@@ -22,6 +22,8 @@ export default function DeleteCaretakerModal({
   const [loading, setLoading] = useState(false);
 
   if (!isOpen || !caretakers) return null;
+    const TOAST_ID = "user-status-toast"; 
+
 
   const handleDelete = async () => {
     setLoading(true);
@@ -48,15 +50,15 @@ export default function DeleteCaretakerModal({
       console.log(response);
 
       if (response?.data?.success) {
-        toast.success(`${userType} deleted successfully!`);
+        toast.success(`${userType} deleted successfully!`,{id:TOAST_ID});
         onClose?.();
         onUpdated?.();
       } else {
-        toast.error(response?.data?.message || "Delete failed.");
+        toast.error(response?.data?.message || "Delete failed.",{id:TOAST_ID});
       }
     } catch (err) {
       console.error("Delete failed:", err);
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.",{id:TOAST_ID});
     } finally {
       setLoading(false);
     }

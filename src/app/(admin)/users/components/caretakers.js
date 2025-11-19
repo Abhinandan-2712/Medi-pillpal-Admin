@@ -39,7 +39,7 @@ export default function User() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserType, setSelectedUserType] = useState("Caretakers");
+  const [selectedUserType, setSelectedUserType] = useState("Caregivers");
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -222,7 +222,7 @@ export default function User() {
                         }`}
                         onClick={() => {
                           setSelectedCaretakers(caretakers);
-                          setSelectedUserType("caretakers");
+                          setSelectedUserType("Caregivers");
                           setIsModalOpen(true);
                         }}
                       >
@@ -248,7 +248,7 @@ export default function User() {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-gray-500">
-                  No caretakers found
+                  No caregiver found
                 </TableCell>
               </TableRow>
             )}

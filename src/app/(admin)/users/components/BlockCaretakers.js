@@ -27,6 +27,8 @@ export default function BlockUserModal({
 
   const isBlocking = caretakers.status === "Active"; // Active = Block action
   const actionText = isBlocking ? "Block" : "Unblock";
+    const TOAST_ID = "user-status-toast"; 
+
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -57,16 +59,16 @@ export default function BlockUserModal({
 
       if (response?.data?.success) {
         toast.success(
-          `${userType} ${isBlocking ? "blocked" : "unblocked"} successfully!`
+          `${userType} ${isBlocking ? "blocked" : "unblocked"} successfully!`,{id:TOAST_ID}
         );
         onClose?.();
         onUpdated?.();
       } else {
-        toast.error(response?.data?.message || "Operation failed.");
+        toast.error(response?.data?.message || "Operation failed.",{id:TOAST_ID});
       }
     } catch (err) {
       console.error("Status update failed:", err);
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.",{id:TOAST_ID});
     } finally {
       setLoading(false);
     }

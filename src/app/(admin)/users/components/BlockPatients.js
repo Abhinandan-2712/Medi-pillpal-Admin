@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -17,26 +16,26 @@ export default function BlockUserModal({
   isOpen,
   onClose,
   patients,
-  userType = "Patients",
+  userType = "Patient",
   onUpdated,
 }) {
   const [loading, setLoading] = useState(false);
-//   console.log(patients)
+  //   console.log(patients)
 
   if (!isOpen || !patients) return null;
 
-  const isBlocking = patients.status === "Active"; // Active = Block action
+  const isBlocking = patients.status === "Active";
   const actionText = isBlocking ? "Block" : "Unblock";
+  const TOAST_ID = "user-status-toast"; 
 
   const handleUpdate = async () => {
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-
       let response;
 
-      // 👉 If user is Active ⇒ Call BLOCK API
+      
       if (isBlocking) {
         response = await api.post(
           `/api/admins/block-patient-byadmin/${patients._id}`,
@@ -45,7 +44,7 @@ export default function BlockUserModal({
         );
       }
 
-      // 👉 If user is Blocked ⇒ Call UNBLOCK API
+     
       else {
         response = await api.post(
           `/api/admins/unblock-patient/${patients._id}`,
@@ -53,20 +52,24 @@ export default function BlockUserModal({
           { headers: { token } }
         );
       }
-      console.log(response)
 
       if (response?.data?.success) {
         toast.success(
-          `${userType} ${isBlocking ? "blocked" : "unblocked"} successfully!`
+          `${userType} ${isBlocking ? "blocked" : "unblocked"} successfully!`,
+          { id: TOAST_ID }
         );
         onClose?.();
         onUpdated?.();
       } else {
-        toast.error(response?.data?.message || "Operation failed.");
+        toast.error(response?.data?.message || "Operation failed.", {
+          id: TOAST_ID,
+        });
       }
     } catch (err) {
       console.error("Status update failed:", err);
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.", {
+        id: TOAST_ID,
+      });
     } finally {
       setLoading(false);
     }
