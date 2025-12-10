@@ -46,9 +46,17 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
 
         <CardContent className="space-y-3 text-gray-700">
           <div className="flex justify-between">
-            <span className="font-medium">Full Name:</span>
+            <span className="font-medium min-w-[100px]">Full Name:</span>
             <span>{patient.fullName || " "}</span>
           </div>
+           {/* <div className="flex gap-2">
+                    <span className="font-medium min-w-[100px]">
+                      Full Name:
+                    </span>
+                    <span className="break-words whitespace-normal flex-1">
+                      {patient.fullName || ""}
+                    </span>
+                  </div> */}
 
           <div className="flex justify-between">
             <span className="font-medium">Gender:</span>
@@ -97,7 +105,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
           {guardian ? (
             <div className="border p-3 rounded-lg bg-gray-50">
               <div className="flex justify-between">
-                <span className="font-medium">Full Name:</span>
+                <span className="font-medium min-w-[100px]">Full Name:</span>
                 <span>{guardian.fullName || " "}</span>
               </div>
 
@@ -151,7 +159,7 @@ export default function ViewPatients({ isOpen, onClose, patient }) {
           {caretaker ? (
             <div className="border p-3 rounded-lg bg-gray-50">
               <div className="flex justify-between">
-                <span className="font-medium">Full Name:</span>
+                <span className="font-medium min-w-[100px]">Full Name:</span>
                 <span>{caretaker.fullName || " "}</span>
               </div>
 

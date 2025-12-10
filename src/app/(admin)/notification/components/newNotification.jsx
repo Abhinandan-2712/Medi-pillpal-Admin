@@ -11,20 +11,80 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 // import toast from "react-hot-toast";
+import api from "@/lib/axiosClient";
+import toast from "react-hot-toast";
 
-export default function NewNotification({ isOpen, onClose }) {
+export default function NewNotification({ isOpen, onClose,onSuccess }) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [audience, setAudience] = useState("select");
 
-  if (!isOpen) return null;   // 👉 isOpen false hone par kuch bhi render na ho
+  if (!isOpen) return null; // 👉 isOpen false hone par kuch bhi render na ho
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log({ title, message, audience });
+  //   onClose?.(); // ✅ parent me showModal ko false karega
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, message, audience });
-    onClose?.(); // ✅ parent me showModal ko false karega
+
+    if (audience === "select") {
+       toast.error("Please select an audience");
+      return;
+    }
+
+    let apiUrl = "";
+
+    switch (audience) {
+      case "All":
+        apiUrl = "/api/notification/send-to-all-apps";
+        break;
+      case "Guardians":
+        apiUrl = "/api/notification/send-to-guardian";
+        break;
+      case "Patients":
+        apiUrl = "/api/notifications/patients";
+        break;
+      case "Caregivers":
+        apiUrl = "/api/notification/send-to-caretaker";
+        break;
+      default:
+        return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("message", message);
+      const res = await api.post(apiUrl, formData, {
+        headers: { token },
+      });
+      console.log(res);
+
+      if (res.data.success) {
+        toast.success("Notification sent successfully", { id: "success" });
+        onClose?.();
+        setTitle("");
+        setMessage("");
+        setAudience("select");
+        onSuccess();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong ", {
+        id: "error",
+      });
+    }
   };
 
   return (
@@ -32,7 +92,9 @@ export default function NewNotification({ isOpen, onClose }) {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>New Notification</CardTitle>
-          <CardDescription>Send a notification to selected users.</CardDescription>
+          <CardDescription>
+            Send a notification to selected users.
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">

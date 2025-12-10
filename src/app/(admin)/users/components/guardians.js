@@ -163,12 +163,16 @@ export default function User() {
                   <TableCell>
                     {(currentPage - 1) * rowsPerPage + idx + 1}
                   </TableCell>
-                  <TableCell>{guardians.fullName}</TableCell>
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {guardians.fullName}
+                    </p>
+                  </TableCell>
                   <TableCell>{guardians.gender}</TableCell>
                   {/* <TableCell>{guardians.age}</TableCell> */}
                   <TableCell>{guardians.totalPatients || 0}</TableCell>
-                  <TableCell>{guardians.totalCaratakers || 0}</TableCell>
-                  <TableCell>+{guardians.mobileNumber}</TableCell>
+                  <TableCell>{guardians.totalCaretakers || 0}</TableCell>
+                  <TableCell>{guardians.mobileNumber}</TableCell>
                   <TableCell
                     className={`${
                       guardians.status === "Active"
@@ -241,7 +245,7 @@ export default function User() {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-gray-500">
-                  No Guardians found
+                  No guardians found
                 </TableCell>
               </TableRow>
             )}

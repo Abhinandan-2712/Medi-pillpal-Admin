@@ -163,12 +163,17 @@ export default function User() {
                   <TableCell>
                     {(currentPage - 1) * rowsPerPage + idx + 1}
                   </TableCell>
-                  <TableCell>{patients.fullName}</TableCell>
+                  {/* <TableCell>{patients.fullName}</TableCell> */}
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {patients.fullName}
+                    </p>
+                  </TableCell>
                   <TableCell>{patients.gender}</TableCell>
                   <TableCell>{patients.age}</TableCell>
                   <TableCell>{patients.totalGuardians || 0}</TableCell>
                   <TableCell>{patients.totalCaragivers || 0}</TableCell>
-                  <TableCell>+{patients.mobileNumber}</TableCell>
+                  <TableCell>{patients.mobileNumber}</TableCell>
                   <TableCell
                     className={`${
                       patients.status === "Active"

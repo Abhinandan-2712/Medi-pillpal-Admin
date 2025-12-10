@@ -143,20 +143,22 @@ export default function FAQ() {
                   <TableCell>
                     {(currentPage - 1) * rowsPerPage + idx + 1}
                   </TableCell>
-                  <TableCell>{faq.question}</TableCell>
-                  <TableCell
-                    // style={{
-                    //   display: "-webkit-box",
-                    //   WebkitLineClamp: 5,
-                    //   WebkitBoxOrient: "vertical",
-                    //   overflow: "hidden",
-                    //   maxWidth: "300px",
-                    // }}
-                    title={faq.answer}
-                  >
-                    {faq.answer}
+                  {/* <TableCell>{faq.question}</TableCell> */}
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {faq.question}
+                    </p>
                   </TableCell>
-                  <TableCell>{faq.status}</TableCell>
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {faq.answer}
+                    </p>
+                  </TableCell>
+                  <TableCell     className={`${
+                      faq.status === "Active"
+                        ? "text-green-600"
+                        : "text-red-500 "
+                    }`}>{faq.status}</TableCell>
                   <TableCell>
                     {new Date(faq.createdAt).toLocaleDateString()}
                   </TableCell>

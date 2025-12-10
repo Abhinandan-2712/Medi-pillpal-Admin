@@ -24,9 +24,9 @@ export default function AddFaq({ isOpen, onClose, onAdded }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question.trim() || !answer.trim()) {
-      toast.error("Question and Answer cannot be blank.",{id:"blank"});
+      toast.error("Question and Answer cannot be blank.", { id: "blank" });
       return;
-    };
+    }
 
     setLoading(true);
     try {
@@ -90,7 +90,11 @@ export default function AddFaq({ isOpen, onClose, onAdded }) {
             <Button
               type="button"
               variant="outline"
-              onClick={onClose}
+              onClick={() => {
+                setQuestion("");
+                setAnswer("");
+                onClose?.();
+              }}
               disabled={loading}
             >
               Cancel

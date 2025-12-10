@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -11,147 +11,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import NewNotification from "./newNotification";
+import api from "@/lib/axiosClient";
 
 export default function Notification() {
   const [showModal, setShowModal] = useState(false);
-  // ✅ Dummy data
-const invoices = [
-  {
-    srNo: 1,
-    fullName: "John Smith",
-    email: "john.smith@example.com",
-    number: "+1 202-555-0110",
-    status: "Sent",
-    date: "10/10/2025",
-    type: "patient",
-    title: "Upcoming Appointment",
-    message: "Your upcoming appointment is scheduled for Oct 20th at 10:00 AM.",
-  },
-  {
-    srNo: 2,
-    fullName: "Emily Johnson",
-    email: "emily.johnson@example.com",
-    number: "+1 202-555-0121",
-    status: "Pending",
-    date: "09/10/2025",
-    type: "caretaker",
-    title: "Profile Incomplete",
-    message: "Please complete your caretaker profile to start accepting assignments.",
-  },
-  {
-    srNo: 3,
-    fullName: "Michael Williams",
-    email: "michael.williams@example.com",
-    number: "+1 202-555-0132",
-    status: "Failed",
-    date: "08/10/2025",
-    type: "guardian",
-    title: "Notification Failed",
-    message: "Notification failed to send. Please check your contact info.",
-  },
-  {
-    srNo: 4,
-    fullName: "Olivia Brown",
-    email: "olivia.brown@example.com",
-    number: "+1 202-555-0143",
-    status: "Sent",
-    date: "07/10/2025",
-    type: "patient",
-    title: "Test Results Available",
-    message: "Your test results are now available in the patient portal.",
-  },
-  {
-    srNo: 5,
-    fullName: "William Jones",
-    email: "william.jones@example.com",
-    number: "+1 202-555-0154",
-    status: "Pending",
-    date: "06/10/2025",
-    type: "caretaker",
-    title: "Verify Working Hours",
-    message: "Reminder: Please verify your working hours for this week.",
-  },
-  {
-    srNo: 6,
-    fullName: "Sophia Garcia",
-    email: "sophia.garcia@example.com",
-    number: "+1 202-555-0165",
-    status: "Sent",
-    date: "05/10/2025",
-    type: "guardian",
-    title: "Guardian Verified",
-    message: "Guardian verification completed successfully.",
-  },
-  {
-    srNo: 7,
-    fullName: "James Miller",
-    email: "james.miller@example.com",
-    number: "+1 202-555-0176",
-    status: "Sent",
-    date: "04/10/2025",
-    type: "patient",
-    title: "Medication Reminder",
-    message: "Your medication reminder for today has been sent.",
-  },
-  {
-    srNo: 8,
-    fullName: "Isabella Davis",
-    email: "isabella.davis@example.com",
-    number: "+1 202-555-0187",
-    status: "Failed",
-    date: "03/10/2025",
-    type: "caretaker",
-    title: "Notification Error",
-    message: "Failed to send notification due to network error.",
-  },
-  {
-    srNo: 9,
-    fullName: "Benjamin Martinez",
-    email: "benjamin.martinez@example.com",
-    number: "+1 202-555-0198",
-    status: "Sent",
-    date: "02/10/2025",
-    type: "guardian",
-    title: "New Caretaker Message",
-    message: "New message from your assigned caretaker is available.",
-  },
-  {
-    srNo: 10,
-    fullName: "Mia Rodriguez",
-    email: "mia.rodriguez@example.com",
-    number: "+1 202-555-0209",
-    status: "Pending",
-    date: "01/10/2025",
-    type: "patient",
-    title: "Appointment Confirmation",
-    message: "Please confirm your upcoming appointment on Oct 15th.",
-  },
-  {
-    srNo: 11,
-    fullName: "Alexander Wilson",
-    email: "alexander.wilson@example.com",
-    number: "+1 202-555-0210",
-    status: "Sent",
-    date: "30/09/2025",
-    type: "caretaker",
-    title: "Weekly Schedule Updated",
-    message: "Your weekly schedule has been updated successfully.",
-  },
-  {
-    srNo: 12,
-    fullName: "Charlotte Anderson",
-    email: "charlotte.anderson@example.com",
-    number: "+1 202-555-0221",
-    status: "Sent",
-    date: "29/09/2025",
-    type: "guardian",
-    title: "Guardian Linked Successfully",
-    message: "Guardian account has been successfully linked with patient.",
-  },
-];
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
-
-  // 🔍 Search
   const [searchTerm, setSearchTerm] = useState("");
 
   // 🔢 Pagination
@@ -159,19 +28,57 @@ const invoices = [
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // ✅ Filter + paginate
-  const filteredInvoices = useMemo(() => {
-    return invoices.filter((inv) =>
-      `${inv.id} ${inv.status} ${inv.method}`
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    );
+  useEffect(() => {
+    if (searchTerm === "") {
+      setDebouncedSearch("");
+      return;
+    }
+
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(1);
+    }, 500);
+
+    return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const totalPages = Math.ceil(filteredInvoices.length / rowsPerPage);
-  const paginatedInvoices = filteredInvoices.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const fetchNotifications = async () => {
+    setLoading(true);
+    const controller = new AbortController();
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await api.get("/api/notification/admin/get", {
+        params: {
+          page: currentPage,
+          limit: rowsPerPage,
+          search: debouncedSearch,
+          status: statusFilter,
+        },
+        headers: { token },
+        signal: controller.signal,
+      });
+      console.log(res);
+
+      setNotifications(res.data.notifications || []);
+      const totalCount = res.data.total || 0;
+      setTotalPages(Math.max(1, Math.ceil(totalCount / rowsPerPage)));
+    } catch (err) {
+      if (err.name !== "CanceledError") {
+        console.error("Failed to fetch notifications", err);
+        setNotifications([]);
+        setTotalPages(1);
+      }
+    } finally {
+      setLoading(false);
+    }
+
+    return () => controller.abort();
+  };
+  useEffect(() => {
+    fetchNotifications();
+  }, [rowsPerPage, currentPage, debouncedSearch, statusFilter]);
 
   // Handler helpers
   const goToPage = (p) => setCurrentPage(p);
@@ -214,40 +121,45 @@ const invoices = [
           <TableHeader>
             <TableRow>
               <TableHead className="w-[120px]">Sr. No.</TableHead>
-              <TableHead>Full Name</TableHead>
+              {/* <TableHead>Full Name</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Contact Number</TableHead>
+              <TableHead>Contact Number</TableHead> */}
               <TableHead>Recipient type</TableHead>
 
               <TableHead>Title</TableHead>
               <TableHead>Message</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Date
-                   <br />
+              <TableHead>
+                Date
+                <br />
                 (DD/MM/YYYY)
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedInvoices.length > 0 ? (
-              paginatedInvoices.map((item) => (
-                <TableRow key={item.srNo}>
-                  <TableCell className="font-medium">{item.srNo}</TableCell>
-                  <TableCell>{item.fullName}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.number}</TableCell>
-                  <TableCell className=" capitalize">{item.type}</TableCell>
-                  <TableCell>{item.title}</TableCell>
+            {notifications.length > 0 ? (
+              notifications.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">
+                    {(currentPage - 1) * rowsPerPage + index + 1}
+                  </TableCell>
 
+                  {/* <TableCell>{item.fullName}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell>{item.number}</TableCell> */}
+                  <TableCell className="capitalize">{item.userType}</TableCell>
+                  <TableCell>{item.title}</TableCell>
                   <TableCell
-                    className="w-64 overflow-hidden text-ellipsis break-words "
+                    className="w-64 overflow-hidden text-ellipsis break-words"
                     title={item.message}
                   >
                     {item.message}
                   </TableCell>
-
                   <TableCell>{item.status}</TableCell>
-                  <TableCell>{item.date}</TableCell>
+                  {/* <TableCell className=" capitalize">sent</TableCell> */}
+                  <TableCell>
+                    {new Date(item.createdAt).toLocaleDateString("en-GB")}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -328,7 +240,11 @@ const invoices = [
           </Button>
         </div>
       </div>
-      <NewNotification isOpen={showModal} onClose={() => setShowModal(false)} />
+      <NewNotification
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSuccess={fetchNotifications}
+      />
     </div>
   );
 }

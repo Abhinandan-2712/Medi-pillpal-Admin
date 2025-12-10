@@ -164,11 +164,16 @@ export default function User() {
                   <TableCell>
                     {(currentPage - 1) * rowsPerPage + idx + 1}
                   </TableCell>
-                  <TableCell>{caretakers.fullName}</TableCell>
+                  {/* <TableCell>{caretakers.fullName}</TableCell> */}
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {caretakers.fullName}
+                    </p>
+                  </TableCell>
                   <TableCell>{caretakers.gender}</TableCell>
                   {/* <TableCell>{caretakers.age|| 26}</TableCell> */}
                   <TableCell>{caretakers.totalPatients || 0}</TableCell>
-                  <TableCell>+{caretakers.mobileNumber}</TableCell>
+                  <TableCell>{caretakers.mobileNumber}</TableCell>
                   <TableCell
                     className={`${
                       caretakers.status === "Active"
@@ -250,7 +255,7 @@ export default function User() {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-gray-500">
-                  No caregiver found
+                  No caregivers found
                 </TableCell>
               </TableRow>
             )}
