@@ -72,7 +72,7 @@ export default function User() {
         headers: { token },
         signal,
       });
-      console.log(res);
+      // console.log(res);
       setPatients(res.data.result.patients || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {

@@ -90,7 +90,7 @@ export default function EditCaretakerModal({
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      console.log(userType);
+      // console.log(userType);
       let apiUrl = "";
 
       if (userType === "Guardian") {
@@ -111,7 +111,7 @@ export default function EditCaretakerModal({
       const response = await api.post(apiUrl, formData, {
         headers: { token },
       });
-      console.log(response);
+      // console.log(response);
 
       if (response?.data?.success) {
         toast.success(`${userType} updated successfully!`, { id: "success" });

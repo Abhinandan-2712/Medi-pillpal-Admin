@@ -22,7 +22,8 @@ import {
 import api from "@/lib/axiosClient";
 import toast from "react-hot-toast";
 
-export default function NewNotification({ isOpen, onClose,onSuccess }) {
+export default function NewNotification({ isOpen, onClose, onSuccess }) {
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [audience, setAudience] = useState("select");
@@ -36,9 +37,20 @@ export default function NewNotification({ isOpen, onClose,onSuccess }) {
   // };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    const cleanTitle = title.replace(/\s+/g, " ").trim();
+    const cleanMessage = message.replace(/\s+/g, " ").trim();
+
+    if (!cleanTitle || !cleanMessage) {
+      toast.error("Title and message cannot be empty or just spaces");
+      setLoading(false);
+      return;
+    }
 
     if (audience === "select") {
-       toast.error("Please select an audience");
+      toast.error("Please select an audience", { id: "audience" });
+      setLoading(false);
       return;
     }
 
@@ -69,7 +81,7 @@ export default function NewNotification({ isOpen, onClose,onSuccess }) {
       const res = await api.post(apiUrl, formData, {
         headers: { token },
       });
-      console.log(res);
+      // console.log("fgjdf",res);
 
       if (res.data.success) {
         toast.success("Notification sent successfully", { id: "success" });
@@ -84,6 +96,8 @@ export default function NewNotification({ isOpen, onClose,onSuccess }) {
       toast.error(error.response?.data?.message || "Something went wrong ", {
         id: "error",
       });
+    } finally {
+      setLoading(false); // 🔥 Re-enable button
     }
   };
 
@@ -124,10 +138,21 @@ export default function NewNotification({ isOpen, onClose,onSuccess }) {
             </Select>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setMessage("");
+                setTitle("");
+                setAudience("select");
+                onClose?.();
+              }}
+            >
               Cancel
             </Button>
-            <Button type="submit">Send</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Sending..." : "Send"}
+            </Button>
           </CardFooter>
         </form>
       </Card>

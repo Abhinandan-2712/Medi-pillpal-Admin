@@ -59,7 +59,7 @@ export default function Notification() {
         headers: { token },
         signal: controller.signal,
       });
-      console.log(res);
+      // console.log(res);
 
       setNotifications(res.data.notifications || []);
       const totalCount = res.data.total || 0;
@@ -148,14 +148,31 @@ export default function Notification() {
                   <TableCell>{item.email}</TableCell>
                   <TableCell>{item.number}</TableCell> */}
                   <TableCell className="capitalize">{item.userType}</TableCell>
-                  <TableCell>{item.title}</TableCell>
-                  <TableCell
+                  {/* <TableCell >{item.title}</TableCell> */}
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {item.title}
+                    </p>
+                  </TableCell>
+                  {/* <TableCell
                     className="w-64 overflow-hidden text-ellipsis break-words"
                     title={item.message}
                   >
                     {item.message}
+                  </TableCell> */}
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+                      {item.message}
+                    </p>
                   </TableCell>
-                  <TableCell>{item.status}</TableCell>
+                  {/* <TableCell>{item.status}</TableCell> */}
+                   <TableCell     className={`${
+                      item.status === "Sent"
+                        ? "text-green-600"
+                        : "text-red-500 "
+                    }`}>{item.status}
+                    </TableCell>
+                  
                   {/* <TableCell className=" capitalize">sent</TableCell> */}
                   <TableCell>
                     {new Date(item.createdAt).toLocaleDateString("en-GB")}

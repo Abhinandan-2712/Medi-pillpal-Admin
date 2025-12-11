@@ -65,7 +65,7 @@ export default function FAQ() {
         headers: { token },
         signal,
       });
-      console.log(res)
+      // console.log(res)
       setFaqs(res.data.result.FAQ || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {

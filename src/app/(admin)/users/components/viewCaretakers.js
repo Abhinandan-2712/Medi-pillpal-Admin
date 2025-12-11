@@ -12,7 +12,7 @@ import { RxCross2 } from "react-icons/rx";
 
 export default function ViewPatients({ isOpen, onClose, Caretakers }) {
   if (!isOpen || !Caretakers) return null;
-  console.log(Caretakers);
+  // console.log(Caretakers);
 
   // Suppose Caretakers.patients = [ { fullName, gender, mobileNumber, status, createdAt }, ... ]
   const patients = Caretakers.patients || [];

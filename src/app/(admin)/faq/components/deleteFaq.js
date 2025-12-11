@@ -29,7 +29,7 @@ export default function DeleteFaq({ isOpen, onClose, faqId, onDeleted }) {
         {},
         { headers: { token: token } }
       );
-      console.log(response);
+      // console.log(response);
       if (response?.data?.success) {
         // toast.dismiss(); 
         toast.success("FAQ deleted successfully!", { id: "success" });

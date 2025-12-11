@@ -80,6 +80,7 @@ export default function AddFaq({ isOpen, onClose, onAdded }) {
               required
             />
             <Textarea
+            className="max-h-64 overflow-y-auto"
               placeholder="Answer"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}

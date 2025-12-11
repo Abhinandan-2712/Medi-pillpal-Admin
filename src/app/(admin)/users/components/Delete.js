@@ -47,7 +47,7 @@ export default function DeleteCaretakerModal({
         {},
         { headers: { token } }
       );
-      console.log(response);
+      // console.log(response);
 
       if (response?.data?.success) {
         toast.success(`${userType} deleted successfully!`,{id:TOAST_ID});

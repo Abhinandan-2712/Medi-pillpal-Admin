@@ -73,7 +73,7 @@ export default function User() {
         headers: { token },
         signal,
       });
-      console.log(res);
+      // console.log(res);
       setCaretakers(res.data.result.caretakers || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {

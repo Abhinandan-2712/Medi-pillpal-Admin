@@ -55,7 +55,7 @@ export default function BlockUserModal({
           { headers: { token } }
         );
       }
-      console.log(response)
+      // console.log(response)
 
       if (response?.data?.success) {
         toast.success(

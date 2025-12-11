@@ -313,7 +313,7 @@ export default function User() {
       saveAs(new Blob([buffer]), filename);
 
       // Success notification (add your notification system here)
-      console.log("Excel exported successfully!");
+      // console.log("Excel exported successfully!");
       return true;
     } catch (error) {
       console.error("Error exporting to Excel:", error);
@@ -429,7 +429,7 @@ export default function User() {
       doc.save(filename);
 
       // Success notification
-      console.log("PDF exported successfully!");
+      // console.log("PDF exported successfully!");
       return true;
     } catch (error) {
       console.error("Error exporting to PDF:", error);

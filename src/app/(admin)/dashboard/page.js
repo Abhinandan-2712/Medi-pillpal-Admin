@@ -69,7 +69,7 @@ export default function Dashboard() {
         const res = await api.get("/api/admins/admin-dashboard-piechart?range=month", {
           headers: { token },
         });
-        console.log("fsdlhf",res.data.result)
+        // console.log("fsdlhf",res.data.result)
         if (res.data.success) {
           setCardData(res.data.result);
         }
