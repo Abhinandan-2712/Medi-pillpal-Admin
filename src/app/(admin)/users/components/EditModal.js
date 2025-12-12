@@ -69,6 +69,11 @@ export default function EditCaretakerModal({
   const handleNameChange = (e) => {
     let value = e.target.value;
 
+    // Limit to 50 characters
+    if (value.length > 50) {
+      return; // Stop typing beyond 50 chars
+    }
+
     // Remove multiple spaces
     value = value.replace(/\s+/g, " ");
 
@@ -85,6 +90,10 @@ export default function EditCaretakerModal({
   const handleEdit = async () => {
     if (!nameRegex.test(formData.fullName)) {
       return toast.error("Invalid name format!", { id: "invalid-name" });
+    }
+    if (formData.fullName.length > 50) {
+      toast.error("Maximum 50 characters allowed");
+      return;
     }
 
     setLoading(true);
