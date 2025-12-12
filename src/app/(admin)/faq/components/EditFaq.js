@@ -21,6 +21,18 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
+ const cleanText = (text) => {
+  // multiple spaces -> single space
+  text = text.replace(/\s\s+/g, " ");
+
+  // starting space remove
+  text = text.replace(/^\s/, "");
+
+  return text;
+};
+
+
+
   // Pre-fill fields when faq changes
   useEffect(() => {
     if (faq) {
@@ -34,6 +46,11 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!faq?._id || !question || !answer) return;
+
+     if (!question.trim() || !answer.trim()) {
+      toast.error("Question and Answer cannot be blank.", { id: "blank" });
+      return;
+    }
 
     setLoading(true);
     try {
@@ -83,13 +100,17 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
             <Input
               placeholder="Question"
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              // onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => setQuestion(cleanText(e.target.value))}
+
               required
             />
             <Textarea
               placeholder="Answer"
               value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
+              // onChange={(e) => setAnswer(e.target.value)}
+              onChange={(e) => setAnswer(cleanText(e.target.value))}
+
               required
             />
           </CardContent>

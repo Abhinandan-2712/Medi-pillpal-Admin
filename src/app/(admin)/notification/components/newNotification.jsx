@@ -43,7 +43,7 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
     const cleanMessage = message.replace(/\s+/g, " ").trim();
 
     if (!cleanTitle || !cleanMessage) {
-      toast.error("Title and message cannot be empty or just spaces");
+      toast.error("Title and message cannot be empty or just spaces",{id:"spaces"});
       setLoading(false);
       return;
     }
