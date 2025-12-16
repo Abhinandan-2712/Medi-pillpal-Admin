@@ -230,7 +230,7 @@ export default function User() {
                         )}
                       </button>
                       <button
-                        className="text-red-600"
+                        className="text-red-500"
                         onClick={() => {
                           setSelectedGuardians(guardians);
                           setDeleteModalOpen(true);

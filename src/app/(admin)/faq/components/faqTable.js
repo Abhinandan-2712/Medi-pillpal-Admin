@@ -180,7 +180,7 @@ export default function FAQ() {
                           setDeleteModalOpen(true);
                         }}
                       >
-                        <MdOutlineDeleteOutline />
+                        <MdOutlineDeleteOutline size={20}/>
                       </button>
                     </div>
                   </TableCell>

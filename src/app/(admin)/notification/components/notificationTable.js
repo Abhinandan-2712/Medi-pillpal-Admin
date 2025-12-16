@@ -100,7 +100,7 @@ export default function Notification() {
             <option value="Failed">Failed</option>
           </select> */}
           <Input
-            placeholder="Search by fullname, email"
+            placeholder="Search by Recipient type, Title,	Message"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -140,7 +140,7 @@ export default function Notification() {
             {notifications.length > 0 ? (
               notifications.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="font-medium">
+                  <TableCell >
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </TableCell>
 
