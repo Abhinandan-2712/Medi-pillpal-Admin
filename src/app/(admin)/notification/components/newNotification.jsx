@@ -219,7 +219,8 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
         <CardHeader>
           <CardTitle>New Notification</CardTitle>
           <CardDescription>
-            Send a notification to selected users.
+            {/* Send a notification to selected users. */}
+            Send a notification to selected app users or individual users.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
