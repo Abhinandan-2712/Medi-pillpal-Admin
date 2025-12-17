@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect } from "react";
 // import axios from "axios";
@@ -14,24 +13,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import api from "@/lib/axiosClient"; 
+import api from "@/lib/axiosClient";
 
 export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
- const cleanText = (text) => {
-  // multiple spaces -> single space
-  text = text.replace(/\s\s+/g, " ");
+  const cleanText = (text) => {
+    // multiple spaces -> single space
+    text = text.replace(/\s\s+/g, " ");
 
-  // starting space remove
-  text = text.replace(/^\s/, "");
+    // starting space remove
+    text = text.replace(/^\s/, "");
 
-  return text;
-};
+    return text;
+  };
 
-
+  const handleCancel = () => {
+    setQuestion(faq?.question || "");
+    setAnswer(faq?.answer || "");
+    onClose?.();
+  };
 
   // Pre-fill fields when faq changes
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
     e.preventDefault();
     if (!faq?._id || !question || !answer) return;
 
-     if (!question.trim() || !answer.trim()) {
+    if (!question.trim() || !answer.trim()) {
       toast.error("Question and Answer cannot be blank.", { id: "blank" });
       return;
     }
@@ -61,28 +64,23 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
       formData.append("question", question);
       formData.append("answer", answer);
 
-      const response = await api.post(
-        `/api/faq/edit/${faq._id}`,
-        formData,
-        {
-          headers: {
-            token,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.post(`/api/faq/edit/${faq._id}`, formData, {
+        headers: {
+          token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       // console.log(response);
       if (response?.data?.success) {
-        toast.success("FAQ updated successfully!",{id:"success"});
+        toast.success("FAQ updated successfully!", { id: "success" });
         onUpdated?.();
         onClose?.();
-      }
-      else if(!response?.data?.success){
-         toast.error(response?.data?.message,{id:"success"});
+      } else if (!response?.data?.success) {
+        toast.error(response?.data?.message, { id: "success" });
       }
     } catch (err) {
       console.error("Failed to update FAQ:", err);
-      toast.error("Failed to update FAQ. Please try again.",{id:"error"});
+      toast.error("Failed to update FAQ. Please try again.", { id: "error" });
     } finally {
       setLoading(false);
     }
@@ -102,7 +100,6 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
               value={question}
               // onChange={(e) => setQuestion(e.target.value)}
               onChange={(e) => setQuestion(cleanText(e.target.value))}
-
               required
             />
             <Textarea
@@ -110,7 +107,6 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
               value={answer}
               // onChange={(e) => setAnswer(e.target.value)}
               onChange={(e) => setAnswer(cleanText(e.target.value))}
-
               required
             />
           </CardContent>
@@ -118,7 +114,7 @@ export default function EditFaq({ isOpen, onClose, faq, onUpdated }) {
             <Button
               type="button"
               variant="outline"
-              onClick={onClose}
+              onClick={handleCancel}
               disabled={loading}
             >
               Cancel

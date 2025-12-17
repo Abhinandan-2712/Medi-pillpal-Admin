@@ -72,7 +72,8 @@ export default function User() {
         headers: { token },
         signal,
       });
-      // console.log(res);
+      console.log(res);
+    
       setPatients(res.data.result.patients || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {
@@ -171,8 +172,8 @@ export default function User() {
                   </TableCell>
                   <TableCell>{patients.gender}</TableCell>
                   <TableCell>{patients.age}</TableCell>
-                  <TableCell>{patients.totalGuardians || 0}</TableCell>
-                  <TableCell>{patients.totalCaragivers || 0}</TableCell>
+                  <TableCell>{patients.totalGuardian || 0}</TableCell>
+                  <TableCell>{patients.totalCaretaker || 0}</TableCell>
                   <TableCell>{patients.mobileNumber}</TableCell>
                   <TableCell
                     className={`${

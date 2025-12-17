@@ -38,7 +38,7 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
   // User search function
   const handleUserSearch = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Please enter search query", { id: "search-empty" });
+      toast.error("Please enter user information to search.", { id: "search-empty" });
       return;
     }
 
@@ -166,7 +166,7 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
         case "Patients":
                     console.log(selectedUser)
 
-          apiUrl = "/api/notifications/send-to-specific-patients";
+          apiUrl = "/api/notification/send-to-specific-patient";
           formData.append("patientId",selectedUser._id)
           break;
         case "Caregivers":

@@ -163,7 +163,7 @@ export default function EditCaretakerModal({
             className="cursor-not-allowed opacity-60"
           />
 
-          <Select
+          {/* <Select
             value={formData.gender}
             onValueChange={(value) =>
               setFormData((prev) => ({ ...prev, gender: value }))
@@ -178,7 +178,7 @@ export default function EditCaretakerModal({
               <SelectItem value="Female">Female</SelectItem>
               <SelectItem value="Other">Other</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
         </div>
 
         {/* ----------- BUTTONS ------------ */}
