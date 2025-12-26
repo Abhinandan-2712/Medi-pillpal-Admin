@@ -137,43 +137,41 @@ export default function Notification() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {notifications.length > 0 ? (
+            {loading ? (
+              <TableRow>
+              <TableCell colSpan={6} className="text-center">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : notifications.length > 0 ? (
               notifications.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell >
+                  <TableCell>
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </TableCell>
 
-                  {/* <TableCell>{item.fullName}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.number}</TableCell> */}
                   <TableCell className="capitalize">{item.userType}</TableCell>
-                  {/* <TableCell >{item.title}</TableCell> */}
-                  <TableCell className="overflow-hidden ">
-                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+
+                  <TableCell className="overflow-hidden">
+                    <p className="line-clamp-4 break-words w-64">
                       {item.title}
                     </p>
                   </TableCell>
-                  {/* <TableCell
-                    className="w-64 overflow-hidden text-ellipsis break-words"
-                    title={item.message}
-                  >
-                    {item.message}
-                  </TableCell> */}
-                  <TableCell className="overflow-hidden ">
-                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
+
+                  <TableCell className="overflow-hidden">
+                    <p className="line-clamp-4 break-words w-64">
                       {item.message}
                     </p>
                   </TableCell>
-                  {/* <TableCell>{item.status}</TableCell> */}
-                   <TableCell     className={`${
-                      item.status === "Sent"
-                        ? "text-green-600"
-                        : "text-red-500 "
-                    }`}>{item.status}
-                    </TableCell>
-                  
-                  {/* <TableCell className=" capitalize">sent</TableCell> */}
+
+                  <TableCell
+                    className={
+                      item.status === "Sent" ? "text-green-600" : "text-red-500"
+                    }
+                  >
+                    {item.status}
+                  </TableCell>
+
                   <TableCell>
                     {new Date(item.createdAt).toLocaleDateString("en-GB")}
                   </TableCell>
@@ -181,7 +179,10 @@ export default function Notification() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-gray-500">
+                <TableCell
+                  colSpan={7}
+                  className="text-center py-6 text-gray-500"
+                >
                   No results found
                 </TableCell>
               </TableRow>

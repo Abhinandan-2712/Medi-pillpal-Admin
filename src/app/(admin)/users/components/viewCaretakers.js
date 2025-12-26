@@ -16,7 +16,8 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
 
   // Suppose Caretakers.patients = [ { fullName, gender, mobileNumber, status, createdAt }, ... ]
   const patients = Caretakers.patients || [];
-  const guardian = Caretakers.guardianId || [];
+  const guardian = Caretakers.guardianId || null;
+  // console.log(guardian);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -115,7 +116,9 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
                   className="border p-3 rounded-lg bg-gray-50"
                 >
                   <div className="flex justify-between">
-                    <span className="font-medium min-w-[100px]">Full Name:</span>
+                    <span className="font-medium min-w-[100px]">
+                      Full Name:
+                    </span>
                     <span>{patient.fullName || ""}</span>
                   </div>
 
@@ -174,7 +177,7 @@ export default function ViewPatients({ isOpen, onClose, Caretakers }) {
         </CardHeader>
 
         <CardContent className="space-y-3 text-gray-700">
-          {guardian === null ? (
+          {guardian ? (
             <div className="border p-3 rounded-lg bg-gray-50">
               <div className="flex justify-between">
                 <span className="font-medium min-w-[100px]">Full Name:</span>
