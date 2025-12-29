@@ -71,7 +71,7 @@ export default function User() {
         headers: { token },
         signal,
       });
-      console.log(res);
+      // console.log(res);
       setGuardians(res.data.result.guardians || []);
       setTotalPages(res.data.result.totalPage || 1);
     } catch (err) {

@@ -117,7 +117,9 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
                   className="border p-3 rounded-lg bg-gray-50"
                 >
                   <div className="flex justify-between">
-                    <span className="font-medium min-w-[100px]">Full Name:</span>
+                    <span className="font-medium min-w-[100px]">
+                      Full Name:
+                    </span>
                     <span>{patient.fullName || ""}</span>
                   </div>
                   {/* <div className="flex gap-2">
@@ -191,7 +193,9 @@ export default function ViewPatients({ isOpen, onClose, Guardian }) {
                   className="border p-3 rounded-lg bg-gray-50"
                 >
                   <div className="flex justify-between">
-                    <span className="font-medium min-w-[100px]">Full Name:</span>
+                    <span className="font-medium min-w-[100px]">
+                      Full Name:
+                    </span>
                     <span>{patient.fullName || ""}</span>
                   </div>
                   {/* <div className="flex gap-2">

@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import {
@@ -38,7 +37,9 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
   // User search function
   const handleUserSearch = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Please enter user information to search.", { id: "search-empty" });
+      toast.error("Please enter user information to search.", {
+        id: "search-empty",
+      });
       return;
     }
 
@@ -72,10 +73,10 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
         headers: { token },
       });
       console.log("API Response:", res.data);
-      
+
       if (res.data.success) {
         let users = [];
-        
+
         if (audience === "Caregivers") {
           users = res.data.result?.caretakers || [];
         } else if (audience === "Guardians") {
@@ -83,11 +84,11 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
         } else if (audience === "Patients") {
           users = res.data.result?.patients || [];
         }
-        
+
         setSearchResults(users);
-        
+
         if (users.length === 0) {
-          toast.error("No users found", { id: "no-users" });
+          toast.error("No user found", { id: "no-users" });
         }
       } else {
         toast.error("Search failed", { id: "search-failed" });
@@ -161,17 +162,17 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
       switch (audience) {
         case "Guardians":
           apiUrl = "/api/notification/send-to-specific-guardian";
-          formData.append("guardianId",selectedUser._id)
+          formData.append("guardianId", selectedUser._id);
           break;
         case "Patients":
-                    console.log(selectedUser)
+          console.log(selectedUser);
 
           apiUrl = "/api/notification/send-to-specific-patient";
-          formData.append("patientId",selectedUser._id)
+          formData.append("patientId", selectedUser._id);
           break;
         case "Caregivers":
           apiUrl = "/api/notification/send-to-specific-caretaker";
-          formData.append("caretakerId",selectedUser._id)
+          formData.append("caretakerId", selectedUser._id);
           break;
         default:
           setLoading(false);
@@ -180,12 +181,11 @@ export default function NewNotification({ isOpen, onClose, onSuccess }) {
     }
 
     try {
-      
       const token = localStorage.getItem("token");
       const res = await api.post(apiUrl, formData, {
         headers: { token },
       });
-      console.log(res)
+      console.log(res);
 
       if (res.data.success) {
         toast.success("Notification sent successfully", { id: "success" });

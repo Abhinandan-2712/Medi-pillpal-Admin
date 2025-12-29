@@ -139,7 +139,7 @@ export default function Notification() {
           <TableBody>
             {loading ? (
               <TableRow>
-              <TableCell colSpan={6} className="text-center">
+                <TableCell colSpan={6} className="text-center">
                   Loading...
                 </TableCell>
               </TableRow>
@@ -152,14 +152,14 @@ export default function Notification() {
 
                   <TableCell className="capitalize">{item.userType}</TableCell>
 
-                  <TableCell className="overflow-hidden">
-                    <p className="line-clamp-4 break-words w-64">
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
                       {item.title}
                     </p>
                   </TableCell>
 
-                  <TableCell className="overflow-hidden">
-                    <p className="line-clamp-4 break-words w-64">
+                  <TableCell className="overflow-hidden ">
+                    <p className="line-clamp-4 !break-words w-64  !whitespace-normal">
                       {item.message}
                     </p>
                   </TableCell>
